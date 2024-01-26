@@ -1,0 +1,19 @@
+{
+  "name": "pet-hotel",
+  "private": true,
+  "scripts": {
+    "front": "(cd frontend && npm run dev)",
+    "back": "(cd backend && npm run dev)",
+    "both": "concurrently \"npm run back\" \"npm run front\"",
+    "install": "(cd frontend && npm i) && (cd backend && npm i)",
+    "format": "npx prettier . --check",
+    "lint": "(cd frontend && npm run lint) && (cd backend && npm run lint)",
+    "fix": "(npx prettier . --write) && (cd frontend && npm run fix) && (cd backend && npm run fix)",
+    "test": "(cd backend && npm run test)",
+    "preinstall": "(cd backend && source $HOME/.nvm/nvm.sh; nvm use)"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "prettier": "3.2.4"
+  }
+}
