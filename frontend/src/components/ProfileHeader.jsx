@@ -1,6 +1,10 @@
 import { Typography, Avatar } from "@mui/material";
 import PropTypes from "prop-types";
-import CatIcon from "../assets/svg/cat.svg?react";
+import HumanIcon from "./HumanIcon";
+import CatIcon from "./CatIcon";
+import DogIcon from "./DogIcon";
+import FemaleIcon from "./FemaleIcon";
+import MaleIcon from "./MaleIcon";
 import HorizontalBox from "./HorizontalBox";
 import VerticalBox from "./VerticalBox";
 
@@ -8,9 +12,10 @@ ProfileHeader.propTypes = {
   alt: PropTypes.string.isRequired,
   caption: PropTypes.string.isRequired,
   src: PropTypes.string,
+  gender: PropTypes.oneOf(["male", "female"]),
 };
 
-function ProfileHeader({ alt, src, caption }) {
+function ProfileHeader({ alt, src, caption, gender, specie }) {
   return (
     <>
       <HorizontalBox>
@@ -19,12 +24,25 @@ function ProfileHeader({ alt, src, caption }) {
         </Avatar>
         <VerticalBox>
           <HorizontalBox>
-            <CatIcon />
-            <Typography variant="subtitle1">{caption}</Typography>
+            <Typography sx={{ ml: 2 }} variant="subtitle1">
+              {caption}
+            </Typography>
           </HorizontalBox>
-          <Typography variant="h2" fontFamily="BeautifulBarbies">
-            {alt}
-          </Typography>
+          <HorizontalBox>
+            <Typography variant="h2" fontFamily="BeautifulBarbies">
+              {alt}
+            </Typography>
+            {specie === "human" ? (
+              <HumanIcon /> ? (
+                specie === "cat"
+              ) : (
+                <CatIcon />
+              )
+            ) : (
+              <DogIcon />
+            )}
+            {gender === "female" ? <FemaleIcon /> : <MaleIcon />}
+          </HorizontalBox>
         </VerticalBox>
       </HorizontalBox>
     </>

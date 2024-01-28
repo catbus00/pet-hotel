@@ -15,6 +15,8 @@ const KOKO = {
     "not being allowed outside",
     "lack of attention",
   ],
+  specie: "cat",
+  gender: "male",
 };
 const KOA = {
   nickname: "Koa",
@@ -23,6 +25,8 @@ const KOA = {
   status: "customer",
   likes: ["belly rubbing", "sunshine", "string toys"],
   dislikes: ["no playing", "farting", "sneezing"],
+  specie: "cat",
+  gender: "male",
 };
 
 function App() {

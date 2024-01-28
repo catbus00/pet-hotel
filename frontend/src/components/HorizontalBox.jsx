@@ -13,7 +13,10 @@ const HorizontalBox = (props) => (
 );
 HorizontalBox.muiName = "Box";
 HorizontalBox.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element.isRequired),
+  children: PropTypes.oneOfType([
+    PropTypes.element.isRequired,
+    PropTypes.arrayOf(PropTypes.element.isRequired),
+  ]),
 };
 
 export default HorizontalBox;

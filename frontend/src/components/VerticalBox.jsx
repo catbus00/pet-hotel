@@ -13,7 +13,10 @@ const VerticalBox = (props) => (
 );
 VerticalBox.muiName = "Box";
 VerticalBox.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element.isRequired),
+  children: PropTypes.oneOfType([
+    PropTypes.element.isRequired,
+    PropTypes.arrayOf(PropTypes.element.isRequired),
+  ]),
 };
 
 export default VerticalBox;
