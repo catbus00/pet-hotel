@@ -5,4 +5,6 @@ export const User = {
   nickname: PropTypes.string.isRequired,
   photo: PropTypes.string,
   status: PropTypes.oneOf(["anonymous", "customer", "owner"]),
+  likes: PropTypes.arrayOf(PropTypes.string),
+  dislikes: PropTypes.arrayOf(PropTypes.string),
 };

@@ -8,12 +8,21 @@ const KOKO = {
   name: 'Koko "Kondo" Eugene Smithianan',
   photo: "/photos/koko.jpg",
   status: "owner",
+  likes: ["entrepreneurship", "following Mom", "gin khao"],
+  dislikes: [
+    "uncleanliness",
+    "lack of food",
+    "not being allowed outside",
+    "lack of attention",
+  ],
 };
 const KOA = {
   nickname: "Koa",
   name: 'Koa "Wawa" Milton Smithianan',
   photo: "/photos/koa.jpg",
   status: "customer",
+  likes: ["belly rubbing", "sunshine", "string toys"],
+  dislikes: ["no playing", "farting", "sneezing"],
 };
 
 function App() {
