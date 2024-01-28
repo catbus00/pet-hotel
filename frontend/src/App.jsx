@@ -33,7 +33,7 @@ function App() {
   const [user] = useState(KOKO);
   return (
     <>
-      <Home user={user} />
+      <Home /* user={user} */ />
     </>
   );
 }

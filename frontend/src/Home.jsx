@@ -1,13 +1,12 @@
 import Container from "@mui/material/Container";
 import Profile from "./Profile";
+import Auth from "./Auth";
 import { User } from "./Types";
 import PropTypes from "prop-types";
 
 Home.propTypes = { user: PropTypes.shape(User) };
 
 export default function Home({ user }) {
-  console.log("log in Home");
-  console.log(user);
   return (
     <>
       <div>
@@ -15,7 +14,7 @@ export default function Home({ user }) {
           {user?.status === "owner" || user?.status === "customer" ? (
             <Profile {...user} />
           ) : (
-            <div>Please login</div>
+            <Auth />
           )}
         </Container>
       </div>
