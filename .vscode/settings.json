@@ -1,0 +1,11 @@
+{
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#263102",
+    "titleBar.activeBackground": "#354503",
+    "titleBar.activeForeground": "#F6FEDC"
+  },
+  "cSpell.words": ["koko", "koa", "preinstall"],
+  "typescript.validate.enable": false,
+  "typescript.format.enable": false,
+  "javascript.validate.enable": true
+}
