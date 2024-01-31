@@ -16,9 +16,9 @@ const register = async (req, res, next) => {
     }
   } catch (e) {
     if (e.constructor.name === "ValidationError") {
-      res.status(StatusCodes.BAD_REQUEST).json("incorrect payload.");
+      res.status(StatusCodes.BAD_REQUEST).json("Incorrect payload.");
     } else if (e.name === "MongoServerError" && e.code === 11000) {
-      res.status(StatusCodes.CONFLICT).json("user already exists.");
+      res.status(StatusCodes.CONFLICT).json("User already exists.");
     } else {
       return next(e);
     }
