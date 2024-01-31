@@ -1,12 +1,18 @@
 import { useState } from "react";
-import {
-  FormControl,
-  TextField,
-  Button,
-  Switch,
-  FormControlLabel,
-} from "@mui/material";
+import { FormControl, TextField, Button, Switch, Grid } from "@mui/material";
 import axios from "axios";
+
+// frontend validation checks
+
+// Allows spaces between words but not symbols or numbers, also not all spaces
+const nameValidator = (name) => {
+  if (!name) {
+    return "Name is required";
+  } else if (!new RegExp(/^[A-Za-z.-]+(\s*[A-Za-z.-]+)*$/).test(name)) {
+    return "Incorrect name format";
+  }
+  return "";
+};
 
 const emailValidator = (email) => {
   if (!email) {
@@ -26,23 +32,25 @@ const passwordValidator = (password) => {
   return "";
 };
 
-const confirmPasswordValidator = (confirmPassword, form) => {
+const confirmPasswordValidator = (password, confirmPassword) => {
   if (!confirmPassword) {
     return "Confirm password is required";
   } else if (confirmPassword.length < 8) {
     return "Confirm password must have a minimum 8 characters";
-  } else if (confirmPassword !== form.password) {
+  } else if (confirmPassword !== password) {
     return "Passwords do not match";
   }
-  return "";
+  return undefined;
 };
+
+//Register and Login Function
 
 function Register() {
   // schema
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState(true);
   const [avatar, setAvatar] = useState("");
 
@@ -50,62 +58,64 @@ function Register() {
   const [mode, setMode] = useState("register");
   const [register, setRegister] = useState(false);
   const [login, setLogin] = useState(false);
+  const [requesting, setRequesting] = useState(false);
 
-  // const [errors, setErrors] = useState({
-  //   email: "",
-  //   password: "",
-  //   confirm: "",
-  // });
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const invalidEmail = emailValidator(email);
-    // const invalidPassword = passwordValidator(password);
-    // const invalidConfirmPassword = confirmPasswordValidator(password, confirm);
+    setRequesting(true);
+    const invalidName = nameValidator(name);
+    const invalidEmail = emailValidator(email);
+    const invalidPassword = passwordValidator(password);
+    const invalidConfirmPassword = confirmPasswordValidator(
+      password,
+      confirmPassword,
+    );
 
-    // setErrors({
-    //   email: invalidEmail,
-    //   password: invalidPassword,
-    //   confirm: invalidConfirmPassword,
-    // });
-    // if (errors.email || errors.password || errors.confirm) {
-    //   return;
-    // }
+    setErrors({
+      name: invalidName,
+      email: invalidEmail,
+      password: invalidPassword,
+      confirmPassword: invalidConfirmPassword,
+    });
+    if (
+      errors.name ||
+      errors.email ||
+      errors.password ||
+      errors.confirmPassword
+    ) {
+      return;
+    }
 
-    const registerConfiguration = {
+    const configuration = {
       method: "post",
-      url: "http://localhost:3000/auth/register",
-      data: {
-        name,
-        email,
-        password,
-        role,
-      },
+      url: `http://localhost:3000/auth/${mode}`,
+      data: { email, password },
     };
-    const loginConfiguration = {
-      method: "post",
-      url: "http://localhost:3000/auth/login",
-      data: {
-        email,
-        password,
-      },
-    };
-    console.log(registerConfiguration);
-    console.log(loginConfiguration);
-    axios(registerConfiguration)
+
+    if (mode === "register") {
+      configuration.data.name = name;
+      configuration.data.role = role;
+    }
+
+    console.log(configuration);
+
+    axios(configuration)
       .then((result) => {
-        setRegister(true);
+        // TODO: redirect to another page ?
+        // stay on the same page but display confirmation ?
+        // do not forget about setRegister/setLogin
       })
-      .catch((error) => {
-        error = new Error();
-      });
-    axios(loginConfiguration)
-      .then((result) => {
-        setLogin(true);
+      .catch((e) => {
+        console.log(e.response.data.message);
       })
-      .catch((error) => {
-        error = new Error();
-      });
+      .finally(() => setRequesting(false));
   };
 
   return (
@@ -123,74 +133,117 @@ function Register() {
           </Button>
           {mode === "register" ? (
             <TextField
+              required
+              error={!!errors.name}
               id="name"
+              type="name"
+              autoComplete="given-name"
               name="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               label="Enter your name"
               sx={{ pb: 2 }}
+              onBlur={(e) => {
+                const invalid = nameValidator(e.target.value);
+                setErrors({ ...errors, name: invalid });
+              }}
+              helperText={errors.name}
             />
           ) : (
             ""
           )}
           <TextField
-            // error={errors.email}
+            required
+            error={!!errors.email}
             id="email"
             type="email"
+            autoComplete="username"
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             label={mode === "register" ? "Enter your email" : "Email"}
             sx={{ pb: 2 }}
-            // onBlur={(e) => {
-            //   const invalid = emailValidator(e.target.value);
-            //   setErrors({ ...errors, email: invalid });
-            // }}
-            // helperText={errors.email}
+            onBlur={(e) => {
+              const invalid = emailValidator(e.target.value);
+              setErrors({ ...errors, email: invalid });
+            }}
+            helperText={errors.email}
           />
           <TextField
-            // error={errors.password}
+            required
+            error={!!errors.password}
             helperText={
-              mode === "register" ? "must be 8 characters long" : undefined
+              mode === "register" ? "Password must be 8 characters long" : ""
             }
+            type="password"
+            autoComplete="new-password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             label={mode === "register" ? "Enter your password" : "Password"}
             sx={{ pb: 1 }}
+            onBlur={(e) => {
+              const invalid = passwordValidator(e.target.value);
+              setErrors({
+                ...errors,
+                password: invalid,
+              });
+            }}
           />
           {mode === "register" ? (
             <TextField
-              // error={errors.confirm}
-              helperText="re-type your password above"
-              id="confirm"
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
+              required
+              error={!!errors.confirmPassword}
+              helperText="Passwords do not match"
+              type="password"
+              autoComplete="new-password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               label="Confirm your password"
               sx={{ pb: 1 }}
+              onBlur={(e) => {
+                const invalid = confirmPasswordValidator(
+                  password,
+                  e.target.value,
+                );
+                setErrors({ ...errors, confirmPassword: invalid });
+              }}
             />
           ) : (
             ""
           )}
           {mode === "register" ? (
-            <FormControlLabel
-              control={
+            <Grid component="label" container alignItems="center" spacing={1}>
+              <Grid item>Customer</Grid>
+              <Grid item>
                 <Switch
                   id="role"
                   name="role"
+                  color="secondary"
                   value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                  sx={{ pb: 2 }}
+                  onChange={(e) => {
+                    setRole(e.target.checked);
+                  }}
+                  sx={{
+                    pb: 2,
+                    "& .MuiSwitch-track": {
+                      backgroundColor: "green",
+                    },
+                  }}
                 />
-              }
-              label="Customer"
-            />
-          ) : null}
+              </Grid>
+              <Grid item>Hotel Owner</Grid>
+            </Grid>
+          ) : (
+            ""
+          )}
 
           <Button
             variant="contained"
             type="submit"
             onClick={(e) => handleSubmit(e)}
+            disabled={requesting}
           >
             Submit
           </Button>
