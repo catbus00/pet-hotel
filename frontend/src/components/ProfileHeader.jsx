@@ -15,7 +15,7 @@ ProfileHeader.propTypes = {
   gender: PropTypes.oneOf(["male", "female"]),
 };
 
-function ProfileHeader({ alt, src, caption, gender, specie }) {
+function ProfileHeader({ alt, src, caption, gender, species }) {
   return (
     <>
       <HorizontalBox>
@@ -32,9 +32,9 @@ function ProfileHeader({ alt, src, caption, gender, specie }) {
             <Typography variant="h2" fontFamily="BeautifulBarbies">
               {alt}
             </Typography>
-            {specie === "human" ? (
+            {species === "human" ? (
               <HumanIcon /> ? (
-                specie === "cat"
+                species === "cat"
               ) : (
                 <CatIcon />
               )

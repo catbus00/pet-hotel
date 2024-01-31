@@ -15,7 +15,7 @@ const KOKO = {
     "not being allowed outside",
     "lack of attention",
   ],
-  specie: "cat",
+  species: "cat",
   gender: "male",
 };
 const KOA = {
@@ -25,7 +25,7 @@ const KOA = {
   status: "customer",
   likes: ["belly rubbing", "sunshine", "string toys"],
   dislikes: ["no playing", "farting", "sneezing"],
-  specie: "cat",
+  species: "cat",
   gender: "male",
 };
 

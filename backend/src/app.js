@@ -20,6 +20,12 @@ if (env !== "prod") app.use(morgan("dev"));
 const helmet = require("helmet");
 const xss = require("xss-clean");
 const rateLimiter = require("express-rate-limit");
+const cors = require("cors");
+const corsOptions = {
+  origin: "http://127.0.0.1:5173",
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
 
 app.set("trust proxy", 1);
 app.use(
@@ -33,6 +39,7 @@ app.use(
 );
 app.use(helmet());
 app.use(xss());
+app.use(cors(corsOptions));
 
 // routes
 

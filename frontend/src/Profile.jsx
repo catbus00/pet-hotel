@@ -4,7 +4,7 @@ import Tags from "./components/Tags";
 
 Profile.propTypes = User;
 
-function Profile({ nickname, photo, name, likes, dislikes, gender, specie }) {
+function Profile({ nickname, photo, name, likes, dislikes, gender, species }) {
   return (
     <>
       <ProfileHeader
@@ -12,7 +12,7 @@ function Profile({ nickname, photo, name, likes, dislikes, gender, specie }) {
         alt={nickname}
         caption={name}
         gender={gender}
-        specie={specie}
+        species={species}
       />
       <Tags label="Likes" tags={likes} />
       <Tags label="Dislikes" tags={dislikes} />

@@ -7,6 +7,6 @@ export const User = {
   status: PropTypes.oneOf(["anonymous", "customer", "owner"]),
   likes: PropTypes.arrayOf(PropTypes.string),
   dislikes: PropTypes.arrayOf(PropTypes.string),
-  specie: PropTypes.oneOf(["human", "cat", "dog"]),
+  species: PropTypes.oneOf(["human", "cat", "dog"]),
   gender: PropTypes.oneOf(["male", "female"]),
 };
