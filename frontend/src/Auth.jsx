@@ -81,7 +81,10 @@ function Auth({ setUser }) {
     axios(configuration)
       .then((result) => {
         if (result.status === HttpStatusCode.Ok) {
-          setUser(result);
+          const { user, token } = result.data;
+          console.log(result);
+          setUser(user);
+          // TODO: set token
           navigate("/home");
         }
       })
