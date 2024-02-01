@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { User } from "./Types";
+import { User } from "./types/User";
 function Admin({ user }) {
   return <></>;
 }

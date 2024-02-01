@@ -1,8 +1,8 @@
-import { User } from "./Types";
+import { Pet } from "./types/Pet";
 import ProfileHeader from "./components/ProfileHeader";
 import Tags from "./components/Tags";
 
-Profile.propTypes = User;
+Profile.propTypes = Pet;
 
 function Profile({ nickname, photo, name, likes, dislikes, gender, species }) {
   return (

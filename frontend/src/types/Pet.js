@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-export const User = {
+export const Pet = {
   name: PropTypes.string.isRequired,
   nickname: PropTypes.string.isRequired,
   photo: PropTypes.string,

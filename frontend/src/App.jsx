@@ -15,7 +15,7 @@ import Home from "./Home";
 import Admin from "./Admin";
 import Auth from "./Auth";
 import Dashboard from "./Dashboard";
-import { User } from "./Types";
+import { User } from "./types/User";
 
 const router = createBrowserRouter([{ path: "*", Component: Root }]);
 

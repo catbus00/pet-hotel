@@ -1,12 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
 import PropTypes from "prop-types";
-import { User as userType } from "./Types";
+import { Pet as userType } from "./types/Pet";
 
-const ProtectedRoute = ({
-  user,
-  redirectPath = "/landing",
-  children,
-}) => {
+const ProtectedRoute = ({ user, redirectPath = "/landing", children }) => {
   if (!user) {
     return <Navigate to={redirectPath} replace />;
   }

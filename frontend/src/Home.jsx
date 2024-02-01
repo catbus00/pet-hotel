@@ -1,6 +1,6 @@
 import Container from "@mui/material/Container";
 import Profile from "./Profile";
-import { User } from "./Types";
+import { User } from "./types/User";
 import PropTypes from "prop-types";
 import Landing from "./Landing";
 
@@ -12,7 +12,8 @@ export default function Home({ user }) {
       <div>
         <Container maxWidth="sm">
           {user?.status === "owner" || user?.status === "customer" ? (
-            <Profile {...user} />
+            // TODO: create or modularize Profile component
+            <></>
           ) : (
             <Landing />
           )}
