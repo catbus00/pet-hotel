@@ -32,19 +32,19 @@ const login = async (req, res) => {
       .status(StatusCodes.BAD_REQUEST)
       .json("Please provide email and password");
   }
-  const user = await User.findOne({ email });
-  if (!user) {
+  const query = await User.findOne({ email });
+  if (!query) {
     res.status(StatusCodes.NOT_FOUND).json("Invalid credentials");
   }
 
-  const isPasswordCorrect = await user.comparePassword(password);
+  const isPasswordCorrect = await query.comparePassword(password);
   if (!isPasswordCorrect) {
     res.status(StatusCodes.NOT_FOUND).json("Invalid credentials");
   }
-  const token = user.createJWT();
-  const payload = user.toObject();
-  delete payload.password;
-  res.status(StatusCodes.OK).json({ user: payload, token });
+  const token = query.createJWT();
+  const user = query.toObject();
+  delete user.password;
+  res.status(StatusCodes.OK).json({ user, token });
 };
 
 module.exports = {
