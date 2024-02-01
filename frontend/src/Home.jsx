@@ -1,8 +1,8 @@
 import Container from "@mui/material/Container";
 import Profile from "./Profile";
-import Auth from "./Auth";
 import { User } from "./Types";
 import PropTypes from "prop-types";
+import Landing from "./Landing";
 
 Home.propTypes = { user: PropTypes.shape(User) };
 
@@ -14,7 +14,7 @@ export default function Home({ user }) {
           {user?.status === "owner" || user?.status === "customer" ? (
             <Profile {...user} />
           ) : (
-            <Auth />
+            <Landing />
           )}
         </Container>
       </div>
