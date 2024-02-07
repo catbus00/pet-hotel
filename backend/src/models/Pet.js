@@ -8,8 +8,8 @@ const PetSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
+      enum: ["male", "female", "other"],
       required: [true, "Please provide the gender of your pet"],
-      maxlength: 50,
     },
     color: {
       type: String,
@@ -20,6 +20,24 @@ const PetSchema = new mongoose.Schema(
       type: "Number",
       required: [true, "Please provide the age of your pet"],
       max: 3,
+    },
+    likes: {
+      type: [String],
+      default: [],
+    },
+    dislikes: {
+      type: [String],
+      default: [],
+    },
+    species: {
+      type: String,
+      enum: ["cat", "dog", "other"],
+      required: [true, "Please provide the species of your pet"],
+    },
+    hotel: {
+      type: mongoose.Types.ObjectId,
+      ref: "Hotel",
+      required: [true, "Please provide the hotel for your pet"],
     },
     avatar: String,
     createdBy: {

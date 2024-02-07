@@ -8,10 +8,17 @@ const app = express();
 const env = process.env.NODE_ENV ?? "prod";
 require("express-async-errors");
 
+// connectDB
+const connectDB = require("./db/connect");
+
 // basic packages
 
 app.use(bodyParser.json());
 if (env !== "prod") app.use(morgan("dev"));
+
+// middleware
+const authenticated = require("./middleware/authentication");
+const { checkUser, checkOwner } = require("./middleware/checkRole");
 
 // extra security packages
 
@@ -34,7 +41,6 @@ app.use(
     limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
     standardHeaders: "draft-7", // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
-    // store: ... , // Use an external store for consistency across multiple server instances.
   }),
 );
 app.use(helmet());
@@ -47,18 +53,20 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-const petsRouter = require("./routes/pets");
-app.use("/pets", petsRouter);
-
 const authRouter = require("./routes/auth");
+const petsRouter = require("./routes/pets");
+const hotelRouter = require("./routes/hotels");
+
 app.use("/auth", authRouter);
+app.use("/pets", authenticated, checkUser, petsRouter);
+app.use("/hotels", authenticated, checkOwner, hotelRouter);
 
 // server initialization
 
 const port = process.env.PORT || 3000;
 const start = async () => {
   try {
-    await require("./db/connect")(process.env.MONGO_URI);
+    await connectDB(process.env.MONGO_URI);
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`),
     );

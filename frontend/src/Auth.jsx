@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { User } from "./types/User";
 import {
   FormControl,
   TextField,
@@ -13,7 +14,7 @@ import PropTypes from "prop-types";
 
 // Register and Login Function
 
-function Auth({ setUser }) {
+function Auth({ user, token, setUser, setToken }) {
   // schema
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -35,6 +36,11 @@ function Auth({ setUser }) {
   });
 
   const configuration = {
+    headers: {
+      authorization: "JWT_TOKEN",
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
     method: "post",
     url: `http://localhost:3000/auth/${mode}`,
     data: { email, password },
@@ -84,17 +90,23 @@ function Auth({ setUser }) {
           const { user, token } = result.data;
           console.log(result);
           setUser(user);
-          // TODO: set token
-          navigate("/home");
+          setToken(token);
+          navigate("/dashboard");
         }
       })
       .catch((e) => {
-        console.log(e.response.data.message);
-        setResponseError(e.response.data.message);
+        console.error(e);
+        if (e.response && e.response.data && e.response.data.message) {
+          console.log(e.response.data.message);
+          setResponseError(e.response.data.message);
+        } else {
+          console.log("Unexpected error occurred");
+          setResponseError("Unexpected error occurred");
+        }
+        navigate("/home");
       })
       .finally(() => setRequesting(false));
   };
-
   return (
     <>
       <form autoComplete="off">
@@ -275,7 +287,10 @@ const confirmPasswordValidator = (password, confirmPassword) => {
 };
 
 Auth.propTypes = {
+  user: PropTypes.shape(User),
+  token: PropTypes.string,
   setUser: PropTypes.func.isRequired,
+  setToken: PropTypes.func.isRequired,
 };
 
 export default Auth;

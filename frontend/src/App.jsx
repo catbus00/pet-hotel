@@ -21,6 +21,8 @@ const router = createBrowserRouter([{ path: "*", Component: Root }]);
 
 function Root() {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+
   const navigate = useNavigate();
   const location = useLocation();
   return (
@@ -30,6 +32,8 @@ function Root() {
           <AuthBar
             user={user}
             setUser={setUser}
+            token={token}
+            setToken={setToken}
             navigate={navigate}
             location={location}
           />
@@ -37,10 +41,28 @@ function Root() {
       >
         <Route index element={<Home user={user} />} />
         <Route element={<ProtectedRoute isAllowed={!!user} />} />
-        <Route path="dashboard" element={<Dashboard user={user} />} />
+        <Route
+          path="dashboard"
+          element={
+            <Dashboard
+              user={user}
+              setUser={setUser}
+              setToken={setToken}
+              location={location}
+            />
+          }
+        />
         <Route
           path="login"
-          element={<Auth setUser={setUser} location={location} />}
+          element={
+            <Auth
+              user={user}
+              token={token}
+              setUser={setUser}
+              setToken={setToken}
+              location={location}
+            />
+          }
         />
         <Route
           path="admin"
@@ -58,23 +80,29 @@ function Root() {
     </Routes>
   );
 }
-Root.propTypes = { user: PropTypes.shape(User) };
+Root.propTypes = { user: PropTypes.shape(User), token: PropTypes.func };
 AuthBar.propTypes = {
   user: PropTypes.shape(User),
   setUser: PropTypes.func.isRequired,
+  token: PropTypes.string,
+  setToken: PropTypes.func.isRequired,
   navigate: PropTypes.func.isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-function AuthBar({ user, setUser, navigate, location }) {
-  console.log(location);
+function AuthBar({ user, setUser, token, navigate, location }) {
+  console.log("setUser:", setUser);
+  const notOnLoginOrRegisterAlready =
+    location.pathname !== "/login" || location.pathname !== "/register";
+  const canSignOut = user && token && notOnLoginOrRegisterAlready;
+  const canSignIn = !user && !token && notOnLoginOrRegisterAlready;
   return (
     <>
-      {location.pathname === "/login" || location.pathname === "/register" ? (
+      {!canSignIn && !canSignOut ? (
         ""
-      ) : user ? (
+      ) : canSignOut ? (
         <button onClick={() => setUser(null)}>Sign Out</button>
       ) : (
         <button onClick={() => navigate("/login")}>Sign In</button>

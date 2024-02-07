@@ -1,12 +1,10 @@
 const Pet = require("../models/Pet");
 const { StatusCodes } = require("http-status-codes");
-// const { BadRequestError, NotFoundError } = require("../errors/");
+const { BadRequestError, NotFoundError } = require("../errors/");
 
 const getAllPets = async (req, res) => {
-  console.log(req);
-  // const pets = await Pet.find({ createdBy: req.user._id }).sort("createdAt");
-  // res.status(StatusCodes.OK).json({ pets, count: pets.length });
-  res.status(StatusCodes.OK).json({});
+  const pets = await Pet.find({ createdBy: req.user.userId }).sort("createdAt");
+  res.status(StatusCodes.OK).json({ pets, count: pets.length });
 };
 
 const getPet = async (req, res) => {
@@ -15,6 +13,7 @@ const getPet = async (req, res) => {
     params: { id: petId },
   } = req;
   const pet = await Pet.findOne({ _id: petId, createdBy: userId });
+  console.log(pet);
   if (!pet) {
     throw new NotFoundError(`No pet with id ${petId}`);
   }
@@ -22,24 +21,27 @@ const getPet = async (req, res) => {
 };
 
 const addPet = async (req, res) => {
-  const {
-    user: { _id: userId },
-    params: { id: petId },
-  } = req;
-  const pet = await Pet.create({ _id: petId, createdBy: userId });
+  req.body.createdBy = req.user.userId;
+  const pet = await Pet.create(req.body);
   res.status(StatusCodes.CREATED).json({ pet });
 };
 
 const updatePet = async (req, res) => {
   const {
-    body: { name, gender, color, age },
+    body: { name, gender, color, age, likes, dislikes, species, avatar },
     user: { userId },
     params: { id: petId },
   } = req;
 
-  if (name === "" || gender === "" || color === "" || age === "") {
+  if (
+    name === "" ||
+    gender === "" ||
+    color === "" ||
+    age === "" ||
+    species === ""
+  ) {
     throw new BadRequestError(
-      "Name, gender, color, and age fields cannot be empty",
+      "Name, gender, color, age, and species fields cannot be empty",
     );
   }
 
