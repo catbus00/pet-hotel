@@ -22,7 +22,11 @@ function InputSelect({ control, label, name, items }) {
           control={control}
           name={name}
           render={({ field }) => (
-            <Select {...field} id={name} sx={{ width: "200px" }}>
+            <Select
+              {...field}
+              id={name}
+              sx={{ width: "200px", marginBottom: "10px" }}
+            >
               {items.map(({ key, value }) => (
                 <MenuItem key={key} value={value}>
                   {value}
