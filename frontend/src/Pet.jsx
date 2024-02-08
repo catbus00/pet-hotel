@@ -22,16 +22,27 @@ function AddPet({ user }) {
   } = useForm({
     defaultValues: {
       likes: [{ name: "" }],
+      dislikes: [{ name: "" }],
       name: "",
       gender: "",
       color: "",
       age: "",
+      species: "",
     },
   });
-  const { fields, append, prepend, remove } = useFieldArray({
-    name: "likes",
-    control,
-  });
+
+  const {
+    fields: likesField,
+    append: likesAppend,
+    remove: likesRemove,
+  } = useFieldArray({ control, name: "likes" });
+
+  const {
+    fields: dislikesField,
+    append: dislikesAppend,
+    remove: dislikesRemove,
+  } = useFieldArray({ control, name: "dislikes" });
+
   const onSubmit = (data) => {
     console.log("data", data);
   };
@@ -51,7 +62,7 @@ function AddPet({ user }) {
           placeholder="Pet Name"
         />
         {errors.name?.message}
-        <label>Gender Selection</label>
+        <label>Choose Gender</label>
         <select {...register("gender")}>
           <option value="male">male</option>
           <option value="female">female</option>
@@ -81,17 +92,17 @@ function AddPet({ user }) {
           })}
         />
         {errors.age?.message}
-        {fields.map((field, index) => {
+        {likesField.map((field, index) => {
           return (
             <section key={field.id}>
               <label>
                 <span>Likes</span>
-                <input {...register(`likes.${index}.name`)} />
+                <input {...register(`likes[${index}].name`)} />
               </label>
               <button
                 type="button"
                 onClick={() => {
-                  remove(index);
+                  likesRemove(index);
                 }}
               >
                 Delete
@@ -102,19 +113,43 @@ function AddPet({ user }) {
         <button
           type="button"
           onClick={() => {
-            append({ name: "" });
+            likesAppend({ name: "" });
           }}
         >
-          Append
+          Add Likes
         </button>
+        {dislikesField.map((field, index) => {
+          return (
+            <section key={field.id}>
+              <label>
+                <span>Dislikes</span>
+                <input {...register(`dislikes[${index}].name`)} />
+              </label>
+              <button
+                type="button"
+                onClick={() => {
+                  dislikesRemove(index);
+                }}
+              >
+                Delete
+              </button>
+            </section>
+          );
+        })}
         <button
           type="button"
           onClick={() => {
-            prepend({ name: "" });
+            dislikesAppend({ name: "" });
           }}
         >
-          Prepend
+          Add Dislikes
         </button>
+        <label>Choose Species</label>
+        <select {...register("species")}>
+          <option value="cat">cat</option>
+          <option value="dog">dog</option>
+          <option value="other">other</option>
+        </select>
         <button type="submit">Submit</button>
       </form>
     </>
