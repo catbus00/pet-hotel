@@ -8,9 +8,11 @@ import {
   InputLabel,
 } from "@mui/material";
 import VerticalBox from "./components/VerticalBox";
+import InputSelect from "./components/InputSelect";
 import { useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import InputTextField from "./components/InputTextField";
 
 // Add Pet Function
 function AddPet({ user }) {
@@ -61,9 +63,9 @@ function AddPet({ user }) {
     <>
       <form onSubmit={(e) => handleSubmit(onSubmit)(e)}>
         <VerticalBox>
-          <Controller
+          <InputTextField
             control={control}
-            name="name"
+            error={errors.name}
             rules={{
               required: "The name of your pet is required.",
               maxLength: {
@@ -71,38 +73,21 @@ function AddPet({ user }) {
                 message: "The maximum length is 50 characters.",
               },
             }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Pet Name"
-                id="name"
-                placeholder="Pet Name"
-                error={Boolean(errors.name)}
-              />
-            )}
-          ></Controller>
-          <Typography>{errors.name?.message}</Typography>
-          <FormControl>
-            <InputLabel>Choose Gender</InputLabel>
-            <Controller
-              control={control}
-              name="gender"
-              render={({ field }) => (
-                <Select {...field} id="gender" sx={{ width: "200px" }}>
-                  <MenuItem key="male" value="male">
-                    male
-                  </MenuItem>
-                  <MenuItem key="female" value="female">
-                    female
-                  </MenuItem>
-                  <MenuItem key="other" value="other">
-                    other
-                  </MenuItem>
-                </Select>
-              )}
-            />
-          </FormControl>
-          <Controller
+            name="name"
+            label="Pet Name"
+            placeholder="Pet Name"
+          />
+          <InputSelect
+            label="Choose Gender"
+            name="gender"
+            control={control}
+            items={[
+              { key: "male", value: "male" },
+              { key: "female", value: "female" },
+              { key: "other", value: "other" },
+            ]}
+          />
+          <InputTextField
             control={control}
             name="color"
             rules={{
@@ -112,29 +97,24 @@ function AddPet({ user }) {
                 message: "The maximum length is 100 characters.",
               },
             }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Color"
-                id="color"
-                placeholder="Pet Color"
-                error={Boolean(errors.color)}
-              />
-            )}
-          ></Controller>
-          <Typography>{errors.color?.message}</Typography>
-          <label>Age</label>
-          <input
-            type="number"
-            {...register("age", {
+            label="Color"
+            placeholder="Pet Color"
+            error={errors.color}
+          />
+          <InputTextField
+            control={control}
+            name="age"
+            rules={{
               required: "The age of your pet is required.",
               maxLength: {
                 value: 3,
                 message: "The maximum length is 3 characters",
               },
-            })}
+            }}
+            label="Age"
+            placeholder="Pet Age"
+            error={errors.age}
           />
-          <Typography>{errors.age?.message}</Typography>
           <VerticalBox>
             {likesField.map((field, index) => {
               return (
@@ -191,12 +171,17 @@ function AddPet({ user }) {
           >
             Add Dislikes
           </Button>
-          <label>Choose Species</label>
-          <Select {...register("species")} value="cat">
-            <MenuItem value="cat">cat</MenuItem>
-            <MenuItem value="dog">dog</MenuItem>
-            <MenuItem value="other">other</MenuItem>
-          </Select>
+
+          <InputSelect
+            label="Choose Species"
+            name="species"
+            control={control}
+            items={[
+              { key: "cat", value: "cat" },
+              { key: "dog", value: "dog" },
+              { key: "other", value: "other" },
+            ]}
+          />
           <Button type="submit">Submit</Button>
         </VerticalBox>
       </form>
