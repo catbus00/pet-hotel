@@ -16,6 +16,7 @@ import Admin from "./Admin";
 import Auth from "./Auth";
 import Dashboard from "./Dashboard";
 import { User } from "./types/User";
+import Pet from "./Pet";
 
 const router = createBrowserRouter([{ path: "*", Component: Root }]);
 
@@ -41,6 +42,7 @@ function Root() {
       >
         <Route index element={<Home user={user} />} />
         <Route element={<ProtectedRoute isAllowed={!!user} />} />
+        <Route path="pets" element={<Pet user={user} />} />
         <Route
           path="dashboard"
           element={
@@ -80,7 +82,10 @@ function Root() {
     </Routes>
   );
 }
-Root.propTypes = { user: PropTypes.shape(User), token: PropTypes.func };
+Root.propTypes = {
+  user: PropTypes.shape(User),
+  token: PropTypes.func,
+};
 AuthBar.propTypes = {
   user: PropTypes.shape(User),
   setUser: PropTypes.func.isRequired,
@@ -93,7 +98,6 @@ AuthBar.propTypes = {
 };
 
 function AuthBar({ user, setUser, token, navigate, location }) {
-  console.log("setUser:", setUser);
   const notOnLoginOrRegisterAlready =
     location.pathname !== "/login" || location.pathname !== "/register";
   const canSignOut = user && token && notOnLoginOrRegisterAlready;
