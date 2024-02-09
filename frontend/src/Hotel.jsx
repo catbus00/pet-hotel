@@ -7,6 +7,10 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
+import dayjs from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import VerticalBox from "./components/VerticalBox";
 import { useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
@@ -27,7 +31,7 @@ function AddHotel({ user }) {
       year: "",
     },
   });
-
+  const today = dayjs();
   const onSubmit = (data) => {
     console.log("data", data);
   };
@@ -64,20 +68,15 @@ function AddHotel({ user }) {
             label="Company Description"
             placeholder="Company Description"
           />
-          <InputTextField
-            control={control}
-            error={errors.name}
-            rules={{
-              required: "The year of your hotel is required.",
-              maxLength: {
-                value: 4,
-                message: "The maximum length is 4 characters.",
-              },
-            }}
-            name="year"
-            label="Year Founded"
-            placeholder="Year Founded"
-          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label={"Year Founded"}
+              views={["year"]}
+              name="year"
+              sx={{ marginBottom: "16.5px" }}
+              maxDate={today}
+            />
+          </LocalizationProvider>
           <Button variant="contained" type="submit" onClick={handleSubmit}>
             Submit
           </Button>

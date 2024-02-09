@@ -14,6 +14,7 @@ import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import InputTextField from "./components/InputTextField";
 import HorizontalBox from "./components/HorizontalBox";
+import Combobox from "./Combobox";
 
 // Add Pet Function
 function AddPet({ user }) {
@@ -193,7 +194,13 @@ function AddPet({ user }) {
               { key: "other", value: "other" },
             ]}
           />
-          <Button variant="contained" type="submit" onClick={handleSubmit}>
+          <Combobox />
+          <Button
+            sx={{ marginTop: "16.5px" }}
+            variant="contained"
+            type="submit"
+            onClick={handleSubmit}
+          >
             Submit
           </Button>
         </VerticalBox>
