@@ -14,9 +14,10 @@ import ProtectedRoute from "./ProtectedRoute";
 import Home from "./Home";
 import Admin from "./Admin";
 import Auth from "./Auth";
+import Hotel from "./Hotel";
 import Dashboard from "./Dashboard";
-import { User } from "./types/User";
 import Pet from "./Pet";
+import { User } from "./types/User";
 
 const router = createBrowserRouter([{ path: "*", Component: Root }]);
 
@@ -43,6 +44,7 @@ function Root() {
         <Route index element={<Home user={user} />} />
         <Route element={<ProtectedRoute isAllowed={!!user} />} />
         <Route path="pets" element={<Pet user={user} />} />
+        <Route path="hotels" element={<Hotel user={user} />} />
         <Route
           path="dashboard"
           element={

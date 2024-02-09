@@ -25,7 +25,7 @@ function InputSelect({ control, label, name, items }) {
             <Select
               {...field}
               id={name}
-              sx={{ width: "200px", marginBottom: "10px" }}
+              sx={{ width: "195px", marginBottom: "16.5px" }}
             >
               {items.map(({ key, value }) => (
                 <MenuItem key={key} value={value}>

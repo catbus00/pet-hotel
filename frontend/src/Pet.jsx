@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import InputTextField from "./components/InputTextField";
+import HorizontalBox from "./components/HorizontalBox";
 
 // Add Pet Function
 function AddPet({ user }) {
@@ -118,10 +119,14 @@ function AddPet({ user }) {
           <VerticalBox>
             {likesField.map((field, index) => {
               return (
-                <section key={field.id}>
+                <HorizontalBox key={field.id}>
                   <label>
-                    <span>Likes</span>
-                    <input {...register(`likes[${index}].name`)} />
+                    <TextField
+                      {...register(`likes[${index}].name`)}
+                      placeholder="Likes"
+                      label="Likes"
+                      sx={{ marginBottom: "16.5px" }}
+                    />
                   </label>
                   <Button
                     type="Button"
@@ -131,7 +136,7 @@ function AddPet({ user }) {
                   >
                     Delete
                   </Button>
-                </section>
+                </HorizontalBox>
               );
             })}
           </VerticalBox>
@@ -140,16 +145,21 @@ function AddPet({ user }) {
             onClick={() => {
               likesAppend({ name: "" });
             }}
+            sx={{ marginBottom: "16.5px" }}
           >
             Add Likes
           </Button>
           <VerticalBox>
             {dislikesField.map((field, index) => {
               return (
-                <section key={field.id}>
+                <HorizontalBox key={field.id}>
                   <label>
-                    <span>Dislikes</span>
-                    <input {...register(`dislikes[${index}].name`)} />
+                    <TextField
+                      {...register(`dislikes[${index}].name`)}
+                      placeholder="Dislikes"
+                      label="Dislikes"
+                      sx={{ marginBottom: "16.5px" }}
+                    />
                   </label>
                   <Button
                     type="Button"
@@ -159,7 +169,7 @@ function AddPet({ user }) {
                   >
                     Delete
                   </Button>
-                </section>
+                </HorizontalBox>
               );
             })}
           </VerticalBox>
@@ -168,6 +178,7 @@ function AddPet({ user }) {
             onClick={() => {
               dislikesAppend({ name: "" });
             }}
+            sx={{ marginBottom: "16.5px" }}
           >
             Add Dislikes
           </Button>
@@ -182,7 +193,9 @@ function AddPet({ user }) {
               { key: "other", value: "other" },
             ]}
           />
-          <Button type="submit">Submit</Button>
+          <Button variant="contained" type="submit" onClick={handleSubmit}>
+            Submit
+          </Button>
         </VerticalBox>
       </form>
     </>

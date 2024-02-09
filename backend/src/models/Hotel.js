@@ -14,8 +14,9 @@ const HotelSchema = new mongoose.Schema(
     year: {
       type: Number,
       required: [true, "Please provide the year your company was founded"],
-      maxlength: 2,
+      maxlength: 4,
     },
+    photo: String,
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",

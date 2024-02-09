@@ -32,7 +32,7 @@ const addHotel = async (req, res) => {
 
 const updateHotel = async (req, res) => {
   const {
-    body: { name, description, year },
+    body: { name, description, year, photo },
     user: { userId },
     params: { id: hotelId },
   } = req;

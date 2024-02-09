@@ -26,7 +26,7 @@ function InputTextField({ control, error, rules, label, name, placeholder }) {
             placeholder={placeholder}
             error={Boolean(error)}
             sx={{
-              paddingBottom: "10px",
+              paddingBottom: "16.5px",
             }}
           />
         )}
