@@ -1,33 +1,18 @@
-import {
-  Button,
-  Select,
-  MenuItem,
-  Typography,
-  TextField,
-  FormControl,
-  InputLabel,
-} from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import VerticalBox from "./components/VerticalBox";
 import InputSelect from "./components/InputSelect";
-import { isValidElement, useState } from "react";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import InputTextField from "./components/InputTextField";
 import HorizontalBox from "./components/HorizontalBox";
 import Combobox from "./Combobox";
 import Navigation from "./Navigation";
+import axios from "axios";
 
 // Add Pet Function
 function AddPet({ user }) {
-  const [name, setName] = useState("");
-  const [gender, setGender] = useState("");
-  const [color, setColor] = useState("");
-  const [age, setAge] = useState("");
-  const [likes, setLikes] = useState("");
-  const [dislikes, setDislikes] = useState("");
-  const [species, setSpecies] = useState("");
-  const [hotel, setHotel] = useState("");
-  const navigate = useNavigate();
+  const [hotels, setHotels] = useState([]);
 
   const {
     register,
@@ -43,9 +28,35 @@ function AddPet({ user }) {
       color: "",
       age: "",
       species: "",
-      petHotel: { id: "", label: "" },
+      petHotel: {},
     },
   });
+
+  const getHotels = () => {
+    axios
+      .get("http://localhost:3000/hotels")
+      .then((res) => {
+        if (Array.isArray(res.data.hotels)) {
+          const hotels = res.data.hotels.map((hotel) => ({
+            label: hotel.name,
+            id: hotel._id,
+          }));
+          setHotels(hotels);
+        } else {
+          console.error(
+            "Invalid response format: res.data.hotels is not an array.",
+          );
+          // TODO send error to child component: Combobox
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  };
+
+  useEffect(() => {
+    getHotels();
+  }, []);
 
   const {
     fields: likesField,
@@ -60,9 +71,7 @@ function AddPet({ user }) {
   } = useFieldArray({ control, name: "dislikes" });
 
   const onSubmit = (data) => {
-    console.log("data", data);
-    console.log("on submit");
-    console.log(hotel);
+    console.log("on submit pet data", data);
   };
 
   return (
@@ -200,7 +209,12 @@ function AddPet({ user }) {
           />
           <Combobox
             control={control}
-            onChange={(e) => setHotel(e.target.value)}
+            name="petHotel"
+            hotels={hotels}
+            rules={{
+              required: "The hotel where your pet is staying is required.",
+            }}
+            error={errors.petHotel}
           />
           <Button
             sx={{ marginTop: "16.5px" }}

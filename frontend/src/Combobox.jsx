@@ -1,48 +1,46 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
-import axios, { HttpStatusCode } from "axios";
+import { Controller } from "react-hook-form";
+import PropTypes from "prop-types";
 
-function Combobox({ onChange ,control }) {
-  const [options, setOptions] = useState([]);
+Combobox.propTypes = {
+  control: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  hotels: PropTypes.arrayOf(PropTypes.object),
+  rules: PropTypes.object,
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+};
 
-  const getHotels = () => {
-    axios
-      .get("http://localhost:3000/hotels")
-      .then((res) => {
-        if (Array.isArray(res.data.hotels)) {
-          const hotelNames = res.data.hotels.map((hotel) => ({
-            label: hotel.name,
-            id: hotel._id,
-          }));
-          setOptions(hotelNames);
-        } else {
-          console.error(
-            "Invalid response format: res.data.hotels is not an array.",
-          );
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  };
-
-  useEffect(() => {
-    getHotels();
-  }, []);
-
+function Combobox({ control, name, hotels, rules, error }) {
   return (
-    <Autocomplete
-      disablePortal
-      options={options}
-      id="petHotel"
-      defaultValues=""
-      onChange={onChange}
-      sx={{ width: 300 }}
-      renderInput={(params) => (
-        <TextField {...params} label="Choose your Pet's Hotel" />
-      )}
+    <Controller
+      name={name}
+      control={control}
+      rules={rules}
+      render={({ field }) => {
+        // 'value' is intentionally ignored (issue controlled/uncontrolled)
+        const { value, onChange, ...restricted } = field;
+        return (
+          <Autocomplete
+            {...restricted}
+            disablePortal
+            options={hotels}
+            id={`${name}-autocomplete`}
+            sx={{ width: 300 }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                error={Boolean(error)}
+                helperText={error?.message}
+                label="Choose your Pet's Hotel"
+              />
+            )}
+            onChange={(_, v) => onChange(v)}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+          />
+        );
+      }}
     />
   );
 }

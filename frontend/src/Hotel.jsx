@@ -34,7 +34,7 @@ function AddHotel({ user }) {
   });
   const today = dayjs();
   const onSubmit = (data) => {
-    console.log("data", data);
+    console.log("on submit hotel data", data);
   };
 
   return (

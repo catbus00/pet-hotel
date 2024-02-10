@@ -1,4 +1,4 @@
-import { Typography, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { Controller } from "react-hook-form";
 import PropTypes from "prop-types";
 
@@ -25,13 +25,13 @@ function InputTextField({ control, error, rules, label, name, placeholder }) {
             id={name}
             placeholder={placeholder}
             error={Boolean(error)}
+            helperText={error?.message ?? error}
             sx={{
               paddingBottom: "16.5px",
             }}
           />
         )}
       ></Controller>
-      <Typography>{error?.message}</Typography>
     </>
   );
 }
