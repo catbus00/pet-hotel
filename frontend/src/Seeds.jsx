@@ -26,4 +26,4 @@ const KOA = {
 
 const Users = [KOKO, KOA];
 
-export default { Users };
+export default { KOKO };

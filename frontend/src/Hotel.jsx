@@ -16,6 +16,7 @@ import { useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import InputTextField from "./components/InputTextField";
+import Navigation from "./Navigation";
 
 // Add Hotel Function
 function AddHotel({ user }) {
@@ -82,6 +83,7 @@ function AddHotel({ user }) {
           </Button>
         </VerticalBox>
       </form>
+      <Navigation />
     </>
   );
 }

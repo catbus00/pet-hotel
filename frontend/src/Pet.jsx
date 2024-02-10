@@ -9,12 +9,13 @@ import {
 } from "@mui/material";
 import VerticalBox from "./components/VerticalBox";
 import InputSelect from "./components/InputSelect";
-import { useState } from "react";
+import { isValidElement, useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import InputTextField from "./components/InputTextField";
 import HorizontalBox from "./components/HorizontalBox";
 import Combobox from "./Combobox";
+import Navigation from "./Navigation";
 
 // Add Pet Function
 function AddPet({ user }) {
@@ -42,6 +43,7 @@ function AddPet({ user }) {
       color: "",
       age: "",
       species: "",
+      petHotel: { id: "", label: "" },
     },
   });
 
@@ -59,6 +61,8 @@ function AddPet({ user }) {
 
   const onSubmit = (data) => {
     console.log("data", data);
+    console.log("on submit");
+    console.log(hotel);
   };
 
   return (
@@ -194,7 +198,10 @@ function AddPet({ user }) {
               { key: "other", value: "other" },
             ]}
           />
-          <Combobox />
+          <Combobox
+            control={control}
+            onChange={(e) => setHotel(e.target.value)}
+          />
           <Button
             sx={{ marginTop: "16.5px" }}
             variant="contained"
@@ -205,6 +212,7 @@ function AddPet({ user }) {
           </Button>
         </VerticalBox>
       </form>
+      <Navigation />
     </>
   );
 }

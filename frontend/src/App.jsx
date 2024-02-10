@@ -17,7 +17,10 @@ import Auth from "./Auth";
 import Hotel from "./Hotel";
 import Dashboard from "./Dashboard";
 import Pet from "./Pet";
+import Profile from "./Profile";
 import { User } from "./types/User";
+import KOKO from "./Seeds";
+
 
 const router = createBrowserRouter([{ path: "*", Component: Root }]);
 
@@ -45,6 +48,7 @@ function Root() {
         <Route element={<ProtectedRoute isAllowed={!!user} />} />
         <Route path="pets" element={<Pet user={user} />} />
         <Route path="hotels" element={<Hotel user={user} />} />
+        <Route path="profile" element={<Profile user={KOKO} />} />
         <Route
           path="dashboard"
           element={

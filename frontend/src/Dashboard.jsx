@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { User } from "./types/User";
+import Navigation from "./Navigation";
 
 function Dashboard({ user }) {
   return (
@@ -11,6 +12,7 @@ function Dashboard({ user }) {
           You are not authorized to view this page. Please log in for access.
         </p>
       )}
+      <Navigation />
     </>
   );
 }
