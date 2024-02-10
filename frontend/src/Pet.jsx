@@ -119,14 +119,13 @@ function AddPet({ user }) {
           <InputTextField
             control={control}
             name="age"
+            label="Pet's Age"
+            type="number"
+            inputProps={{ min: 1, max: 100 }}
             rules={{
               required: "The age of your pet is required.",
-              maxLength: {
-                value: 3,
-                message: "The maximum length is 3 characters",
-              },
             }}
-            label="Age"
+            id="outlined-number"
             placeholder="Pet Age"
             error={errors.age}
           />

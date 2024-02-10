@@ -8,10 +8,23 @@ InputTextField.propTypes = {
   rules: PropTypes.object,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  inputProps: PropTypes.object,
   placeholder: PropTypes.string.isRequired,
+  id: PropTypes.string,
 };
 
-function InputTextField({ control, error, rules, label, name, placeholder }) {
+function InputTextField({
+  control,
+  error,
+  rules,
+  label,
+  name,
+  type,
+  inputProps,
+  placeholder,
+  id,
+}) {
   return (
     <>
       <Controller
@@ -23,11 +36,14 @@ function InputTextField({ control, error, rules, label, name, placeholder }) {
             {...field}
             label={label}
             id={name}
+            type={type}
+            inputProps={inputProps}
             placeholder={placeholder}
             error={Boolean(error)}
             helperText={error?.message ?? error}
             sx={{
               paddingBottom: "16.5px",
+              minWidth: 195,
             }}
           />
         )}
