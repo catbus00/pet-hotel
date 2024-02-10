@@ -13,7 +13,6 @@ const getPet = async (req, res) => {
     params: { id: petId },
   } = req;
   const pet = await Pet.findOne({ _id: petId, createdBy: userId });
-  console.log(pet);
   if (!pet) {
     throw new NotFoundError(`No pet with id ${petId}`);
   }

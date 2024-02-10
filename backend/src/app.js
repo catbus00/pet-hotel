@@ -57,9 +57,23 @@ const authRouter = require("./routes/auth");
 const petsRouter = require("./routes/pets");
 const hotelRouter = require("./routes/hotels");
 
+const owns = async (req, res, next) => {
+  if (req.path === "/" && req.method === "GET") {
+    next();
+  } else {
+    try {
+      await authenticated(req);
+      await checkOwner(req);
+      next();
+    } catch (e) {
+      next(e);
+    }
+  }
+};
+
 app.use("/auth", authRouter);
 app.use("/pets", authenticated, checkUser, petsRouter);
-app.use("/hotels", authenticated, checkOwner, hotelRouter);
+app.use("/hotels", owns, hotelRouter);
 
 // server initialization
 

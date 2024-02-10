@@ -3,8 +3,13 @@ const { StatusCodes } = require("http-status-codes");
 const { BadRequestError, NotFoundError } = require("../errors/");
 
 const getAllHotels = async (req, res) => {
+  const hotels = await Hotel.find().sort("createdAt");
+  res.status(StatusCodes.OK).json({ hotels, count: hotels.length });
+};
+
+const getOwnedHotels = async (req, res) => {
   const hotels = await Hotel.find({ createdBy: req.user.userId }).sort(
-    "createdAt",
+    "createdBy userId",
   );
   res.status(StatusCodes.OK).json({ hotels, count: hotels.length });
 };
@@ -17,7 +22,6 @@ const getHotel = async (req, res) => {
 
   const hotel = await Hotel.findOne({ _id: hotelId, createdBy: userId });
 
-  console.log("Result:", hotel);
   if (!hotel) {
     throw new NotFoundError(`No hotel with id ${hotelId}`);
   }
@@ -32,7 +36,7 @@ const addHotel = async (req, res) => {
 
 const updateHotel = async (req, res) => {
   const {
-    body: { name, description, year, photo },
+    body: { name, description, year },
     user: { userId },
     params: { id: hotelId },
   } = req;
@@ -71,6 +75,7 @@ const deleteHotel = async (req, res) => {
 
 module.exports = {
   getAllHotels,
+  getOwnedHotels,
   getHotel,
   addHotel,
   updateHotel,
