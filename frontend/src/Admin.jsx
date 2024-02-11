@@ -1,10 +1,9 @@
-import PropTypes from "prop-types";
-import { User } from "./types/User";
+import { Authenticated } from "./types/Authentication";
 function Admin({ user }) {
   return <></>;
 }
 Admin.propTypes = {
-  user: PropTypes.shape(User),
+  ...Authenticated,
 };
 
 export default Admin;

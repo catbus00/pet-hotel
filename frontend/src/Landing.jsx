@@ -4,8 +4,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LandingPic from "../src/assets/images/MeowtelLanding.jpg";
 import Auth from "./Auth";
-import PropTypes from "prop-types";
-import { User } from "./types/User";
+import { Secure } from "./types/Secure";
 
 function Copyright(props) {
   return (
@@ -28,9 +27,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 Landing.propTypes = {
-  setUser: PropTypes.func.isRequired,
-  setToken: PropTypes.func.isRequired,
-  navigate: PropTypes.func.isRequired,
+  ...Secure,
 };
 
 export default function Landing({ setUser, setToken, navigate }) {

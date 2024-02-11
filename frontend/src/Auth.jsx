@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { User } from "./types/User";
 import {
   FormControl,
   TextField,
@@ -9,14 +8,12 @@ import {
   Typography,
 } from "@mui/material";
 import axios, { HttpStatusCode } from "axios";
-import PropTypes from "prop-types";
+import { Secure } from "./types/Secure";
 
 // Register and Login Function
 
 Auth.propTypes = {
-  setUser: PropTypes.func.isRequired,
-  setToken: PropTypes.func.isRequired,
-  navigate: PropTypes.func.isRequired,
+  ...Secure,
 };
 
 function Auth({ setUser, setToken, navigate }) {

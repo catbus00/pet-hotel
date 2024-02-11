@@ -1,13 +1,11 @@
 import Container from "@mui/material/Container";
-import { User } from "./types/User";
-import PropTypes from "prop-types";
+import { Authenticated } from "./types/Authentication";
+import { Secure } from "./types/Secure";
 import Landing from "./Landing";
 
 Home.propTypes = {
-  user: PropTypes.shape(User),
-  setUser: PropTypes.func.isRequired,
-  setToken: PropTypes.func.isRequired,
-  navigate: PropTypes.func.isRequired,
+  ...Authenticated,
+  ...Secure,
 };
 
 export default function Home({ user, setUser, setToken, navigate }) {
@@ -19,7 +17,11 @@ export default function Home({ user, setUser, setToken, navigate }) {
             // TODO: create or modularize Profile component
             <></>
           ) : (
-            <Landing setUser={setUser} setToken={setToken} navigate={navigate} />
+            <Landing
+              setUser={setUser}
+              setToken={setToken}
+              navigate={navigate}
+            />
           )}
         </Container>
       </div>

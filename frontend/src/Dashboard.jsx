@@ -1,10 +1,9 @@
-import PropTypes from "prop-types";
-import { User } from "./types/User";
 import Navigation from "./Navigation";
 import AppBar from "./AppBar";
+import { Authenticated } from "./types/Authentication";
 
 Dashboard.propTypes = {
-  user: PropTypes.shape(User),
+  ...Authenticated,
 };
 
 function Dashboard({ user }) {

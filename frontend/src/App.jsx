@@ -16,8 +16,8 @@ import Hotel from "./Hotel";
 import Dashboard from "./Dashboard";
 import Pet from "./Pet";
 import Profile from "./Profile";
-import { User } from "./types/User";
 import Landing from "./Landing";
+import { Secure } from "./types/Secure";
 
 const router = createBrowserRouter([{ path: "*", Component: Root }]);
 
@@ -81,11 +81,8 @@ function Root() {
 }
 Root.propTypes = {};
 AuthBar.propTypes = {
-  user: PropTypes.shape(User),
-  setUser: PropTypes.func.isRequired,
-  setToken: PropTypes.func.isRequired,
+  ...Secure,
   token: PropTypes.string,
-  navigate: PropTypes.func.isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
