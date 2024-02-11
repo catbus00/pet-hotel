@@ -4,7 +4,7 @@
     "titleBar.activeBackground": "#354503",
     "titleBar.activeForeground": "#F6FEDC"
   },
-  "cSpell.words": ["koa", "koko", "maxlength", "preinstall"],
+  "cSpell.words": ["koa", "koko", "maxlength", "Meowtel", "preinstall"],
   "typescript.validate.enable": false,
   "typescript.format.enable": false,
   "javascript.validate.enable": true
