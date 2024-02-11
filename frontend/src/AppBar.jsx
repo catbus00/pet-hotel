@@ -48,7 +48,7 @@ function MeowtelAppBar() {
           >
             <img
               className="nav-logo"
-              src="../public/favicon.png"
+              src="../favicon.png"
               alt="Meowtel Logo"
               width="40"
               height="40"
