@@ -5,13 +5,11 @@ import {
   Route,
   RouterProvider,
   createBrowserRouter,
-  Outlet,
   useNavigate,
   useLocation,
 } from "react-router-dom";
 import "./App.css";
 import ProtectedRoute from "./ProtectedRoute";
-import Home from "./Home";
 import Admin from "./Admin";
 import Auth from "./Auth";
 import Hotel from "./Hotel";
@@ -19,8 +17,7 @@ import Dashboard from "./Dashboard";
 import Pet from "./Pet";
 import Profile from "./Profile";
 import { User } from "./types/User";
-import KOKO from "./Seeds";
-
+import Landing from "./Landing";
 
 const router = createBrowserRouter([{ path: "*", Component: Root }]);
 
@@ -37,41 +34,35 @@ function Root() {
           <AuthBar
             user={user}
             setUser={setUser}
-            token={token}
             setToken={setToken}
+            token={token}
             navigate={navigate}
             location={location}
           />
         }
       >
-        <Route index element={<Home user={user} />} />
+        <Route
+          index
+          element={
+            <Landing
+              setUser={setUser}
+              setToken={setToken}
+              navigate={navigate}
+            />
+          }
+        />
         <Route element={<ProtectedRoute isAllowed={!!user} />} />
         <Route path="pets" element={<Pet user={user} />} />
         <Route path="hotels" element={<Hotel user={user} />} />
-        <Route path="profile" element={<Profile user={KOKO} />} />
-        <Route
-          path="dashboard"
-          element={
-            <Dashboard
-              user={user}
-              setUser={setUser}
-              setToken={setToken}
-              location={location}
-            />
-          }
-        />
+        <Route path="profile" element={<Profile />} />
+        <Route path="dashboard" element={<Dashboard user={user} />} />
         <Route
           path="login"
           element={
-            <Auth
-              user={user}
-              token={token}
-              setUser={setUser}
-              setToken={setToken}
-              location={location}
-            />
+            <Auth setUser={setUser} setToken={setToken} navigate={navigate} />
           }
         />
+
         <Route
           path="admin"
           element={
@@ -88,22 +79,19 @@ function Root() {
     </Routes>
   );
 }
-Root.propTypes = {
-  user: PropTypes.shape(User),
-  token: PropTypes.func,
-};
+Root.propTypes = {};
 AuthBar.propTypes = {
   user: PropTypes.shape(User),
   setUser: PropTypes.func.isRequired,
-  token: PropTypes.string,
   setToken: PropTypes.func.isRequired,
+  token: PropTypes.string,
   navigate: PropTypes.func.isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-function AuthBar({ user, setUser, token, navigate, location }) {
+function AuthBar({ user, setUser, setToken, token, navigate, location }) {
   const notOnLoginOrRegisterAlready =
     location.pathname !== "/login" || location.pathname !== "/register";
   const canSignOut = user && token && notOnLoginOrRegisterAlready;
@@ -115,9 +103,8 @@ function AuthBar({ user, setUser, token, navigate, location }) {
       ) : canSignOut ? (
         <button onClick={() => setUser(null)}>Sign Out</button>
       ) : (
-        <button onClick={() => navigate("/login")}>Sign In</button>
+        <Landing setUser={setUser} setToken={setToken} navigate={navigate} />
       )}
-      <Outlet />
     </>
   );
 }

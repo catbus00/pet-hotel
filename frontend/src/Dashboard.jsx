@@ -1,26 +1,26 @@
 import PropTypes from "prop-types";
 import { User } from "./types/User";
 import Navigation from "./Navigation";
+import AppBar from "./AppBar";
+
+Dashboard.propTypes = {
+  user: PropTypes.shape(User),
+};
 
 function Dashboard({ user }) {
   return (
     <>
+      {user !== null && user !== undefined && <AppBar />}
       {user ? (
-        <p>Welcome {user}!</p>
+        <p>Hello, {user}! Welcome to Meowtel App.</p>
       ) : (
         <p>
           You are not authorized to view this page. Please log in for access.
         </p>
       )}
-      <Navigation />
+      {user !== null && user !== undefined && <Navigation />}
     </>
   );
 }
 
-Dashboard.propTypes = {
-  user: PropTypes.shape(User),
-  setUser: PropTypes.func.isRequired,
-  setToken: PropTypes.func.isRequired,
-  navigate: PropTypes.func,
-};
 export default Dashboard;

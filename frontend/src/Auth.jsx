@@ -9,12 +9,17 @@ import {
   Typography,
 } from "@mui/material";
 import axios, { HttpStatusCode } from "axios";
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 // Register and Login Function
 
-function Auth({ user, token, setUser, setToken }) {
+Auth.propTypes = {
+  setUser: PropTypes.func.isRequired,
+  setToken: PropTypes.func.isRequired,
+  navigate: PropTypes.func.isRequired,
+};
+
+function Auth({ setUser, setToken, navigate }) {
   // schema
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,7 +27,6 @@ function Auth({ user, token, setUser, setToken }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState(true);
   const [responseError, setResponseError] = useState(undefined);
-  const navigate = useNavigate();
 
   // validation and mode
   const [mode, setMode] = useState("login");
@@ -118,26 +122,28 @@ function Auth({ user, token, setUser, setToken }) {
               setMode(mode === "register" ? "login" : "register");
             }}
           >
-            {mode === "register" ? "Login" : "Register"}
+            {mode === "Register" ? "Login" : "Don't have an account? Sign up."}
           </Button>
           {mode === "register" ? (
-            <TextField
-              required
-              error={!!errors.name}
-              id="name"
-              type="name"
-              autoComplete="given-name"
-              name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              label="Enter your name"
-              sx={{ pb: 2 }}
-              onBlur={(e) => {
-                const invalid = nameValidator(e.target.value);
-                setErrors({ ...errors, name: invalid });
-              }}
-              helperText={errors.name}
-            />
+            <>
+              <TextField
+                required
+                error={!!errors.name}
+                id="name"
+                type="name"
+                autoComplete="given-name"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                label="Enter your name"
+                sx={{ pb: 2 }}
+                onBlur={(e) => {
+                  const invalid = nameValidator(e.target.value);
+                  setErrors({ ...errors, name: invalid });
+                }}
+                helperText={errors.name}
+              />
+            </>
           ) : (
             ""
           )}
@@ -179,6 +185,7 @@ function Auth({ user, token, setUser, setToken }) {
               });
             }}
           />
+
           {mode === "register" ? (
             <TextField
               required
@@ -236,6 +243,7 @@ function Auth({ user, token, setUser, setToken }) {
           >
             Submit
           </Button>
+
           <Typography sx={{ ml: 2 }} variant="body1">
             {responseError}
           </Typography>
@@ -284,13 +292,6 @@ const confirmPasswordValidator = (password, confirmPassword) => {
     return "Passwords do not match";
   }
   return undefined;
-};
-
-Auth.propTypes = {
-  user: PropTypes.shape(User),
-  token: PropTypes.string,
-  setUser: PropTypes.func.isRequired,
-  setToken: PropTypes.func.isRequired,
 };
 
 export default Auth;
