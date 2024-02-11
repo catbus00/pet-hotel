@@ -44,7 +44,7 @@ function Profile() {
       />
       <Tags label="Likes" tags={likes} />
       <Tags label="Dislikes" tags={dislikes} />
-      <Navigation />;
+      <Navigation />
     </>
   );
 }
