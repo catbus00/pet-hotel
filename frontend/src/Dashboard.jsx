@@ -1,23 +1,28 @@
 import Navigation from "./Navigation";
 import AppBar from "./AppBar";
-import { Authenticated } from "./types/Authentication";
+import { Authenticated, Authenticator } from "./types/Authentication";
+import { Navigation as NavigationProps } from "./types/Navigation";
 
 Dashboard.propTypes = {
   ...Authenticated,
+  ...Authenticator,
+  ...NavigationProps,
 };
 
-function Dashboard({ user }) {
+function Dashboard({ user, setUser, setToken, navigate }) {
   return (
     <>
-      {user !== null && user !== undefined && <AppBar />}
+      {user && (
+        <AppBar setToken={setToken} setUser={setUser} navigate={navigate} />
+      )}
       {user ? (
-        <p>Hello, {user}! Welcome to Meowtel App.</p>
+        <p>Hello, {user.name}! Welcome to Meowtel App.</p>
       ) : (
         <p>
           You are not authorized to view this page. Please log in for access.
         </p>
       )}
-      {user !== null && user !== undefined && <Navigation />}
+      {user && <Navigation />}
     </>
   );
 }

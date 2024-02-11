@@ -1,27 +1,16 @@
-import {
-  Button,
-  Select,
-  MenuItem,
-  Typography,
-  TextField,
-  FormControl,
-  InputLabel,
-} from "@mui/material";
+import { Button } from "@mui/material";
 import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import VerticalBox from "./components/VerticalBox";
-import { useState } from "react";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import InputTextField from "./components/InputTextField";
 import Navigation from "./Navigation";
 
 // Add Hotel Function
 function AddHotel({ user }) {
   const {
-    register,
     handleSubmit,
     formState: { errors },
     control,

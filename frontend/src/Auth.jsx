@@ -38,7 +38,6 @@ function Auth({ setUser, setToken, navigate }) {
 
   const configuration = {
     headers: {
-      authorization: "JWT_TOKEN",
       Accept: "application/json",
       "Content-Type": "application/json",
     },
@@ -88,9 +87,8 @@ function Auth({ setUser, setToken, navigate }) {
     axios(configuration)
       .then((result) => {
         if (result.status === HttpStatusCode.Ok) {
-          const { user, token } = result.data;
-          console.log(result);
-          setUser(user);
+          const { user, token, role } = result.data;
+          setUser({ name: user, email, role });
           setToken(token);
           navigate("/dashboard");
         }

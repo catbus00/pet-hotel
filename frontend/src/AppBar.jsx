@@ -12,10 +12,17 @@ import {
   Typography,
   Menu,
 } from "@mui/material";
+import { Authenticator } from "./types/Authentication";
+import { Navigation } from "./types/Navigation";
 
 const settings = ["Profile", "Dashboard", "Settings", "Logout"];
 
-function MeowtelAppBar() {
+MeowtelAppBar.propTypes = {
+  ...Authenticator,
+  ...Navigation,
+};
+
+function MeowtelAppBar({ setUser, setToken, navigate }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -30,8 +37,15 @@ function MeowtelAppBar() {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (index) => {
     setAnchorElUser(null);
+    const setting =
+      settings.length > index && index >= 0 ? settings[index] : undefined;
+    if (setting && setting === "Logout") {
+      setUser(null);
+      setToken(null);
+      navigate("/");
+    }
   };
 
   return (
@@ -142,8 +156,11 @@ function MeowtelAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+              {settings.map((setting, index) => (
+                <MenuItem
+                  key={setting}
+                  onClick={() => handleCloseUserMenu(index)}
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
