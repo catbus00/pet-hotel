@@ -54,6 +54,18 @@ function MeowtelAppBar({ setUser, setToken, navigate }) {
           console.error("Error logging off:", error);
         });
     }
+    if (setting && setting === "Profile") {
+      axios
+        .get(navigate("/profile"))
+        .catch((error) => {
+          console.error("Error getting Profile:", error);
+        });
+    }
+    if (setting && setting === "Dashboard") {
+      axios.get(navigate("/dashboard")).catch((error) => {
+        console.error("Error getting Profile:", error);
+      });
+    }
   };
 
   return (
