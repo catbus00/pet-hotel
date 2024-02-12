@@ -23,7 +23,6 @@ function Root() {
   const [token, setToken] = useState(null);
 
   const navigate = useNavigate();
-  const location = useLocation();
   return (
     <Routes>
       <Route

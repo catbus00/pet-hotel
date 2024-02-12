@@ -1,4 +1,5 @@
 import Navigation from "./Navigation";
+import { useEffect } from "react";
 import AppBar from "./AppBar";
 import { Authenticated, Authenticator } from "./types/Authentication";
 import { Navigation as NavigationProps } from "./types/Navigation";
@@ -10,6 +11,22 @@ Dashboard.propTypes = {
 };
 
 function Dashboard({ user, setUser, setToken, navigate }) {
+  useEffect(() => {
+    const storedToken = sessionStorage.getItem("authToken");
+    const storedUser = sessionStorage.getItem("authUser");
+
+    if (storedToken) {
+      setToken(storedToken);
+    } else {
+      console.log("Token not found in session storage");
+    }
+
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    } else {
+      console.log("User not found in session storage");
+    }
+  }, [setToken, setUser]);
   return (
     <>
       {user && (
