@@ -14,8 +14,8 @@ import Dashboard from "./Dashboard";
 import PetsView from "./PetsView";
 import Profile from "./Profile";
 import Landing from "./Landing";
-
-const router = createBrowserRouter([{ path: "*", Component: Root }]);
+import PropTypes from "prop-types";
+import { Config } from "./types/Config";
 
 const retrieveStoredUser = () => {
   const storedUser = sessionStorage.getItem("authUser");
@@ -27,7 +27,7 @@ const retrieveStoredUser = () => {
 
 const retrieveStoredToken = () => sessionStorage.getItem("authToken");
 
-function Root() {
+function Root({ uri }) {
   const [user, setUser] = useState(retrieveStoredUser());
   const [token, setToken] = useState(retrieveStoredToken());
   const navigate = useNavigate();
@@ -43,6 +43,7 @@ function Root() {
               setUser={setUser}
               setToken={setToken}
               navigate={navigate}
+              uri={uri}
             />
           }
         />
@@ -56,10 +57,11 @@ function Root() {
             setToken={setToken}
             setUser={setUser}
             navigate={navigate}
+            uri={uri}
           />
         }
       >
-        <Route path="pets" element={<PetsView token={token} />} />
+        <Route path="pets" element={<PetsView uri={uri} token={token} />} />
         <Route path="hotels" element={<Hotel user={user} />} />
         <Route path="profile" element={<Profile />} />
         <Route path="dashboard" element={<Dashboard user={user} />} />
@@ -70,10 +72,19 @@ function Root() {
     </Routes>
   );
 }
-Root.propTypes = {};
+Root.propTypes = {
+  ...Config,
+};
 
-const App = () => {
+const App = ({ uri }) => {
+  const router = createBrowserRouter([
+    { path: "*", element: <Root uri={uri} /> },
+  ]);
   return <RouterProvider router={router} />;
+};
+
+App.propTypes = {
+  uri: PropTypes.string.isRequired,
 };
 
 export default App;

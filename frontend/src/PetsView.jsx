@@ -1,20 +1,23 @@
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Tags from "./components/Tags";
-import Pet from "./Pet";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography,
+} from "@mui/material";
+import { Config } from "./types/Config";
 
 PetsView.propTypes = {
   token: PropTypes.string,
+  ...Config,
 };
 
-function PetsView({ token }) {
+function PetsView({ token, uri }) {
   const [pets, setPets] = useState([]);
 
   const getPets = () => {
@@ -25,7 +28,7 @@ function PetsView({ token }) {
         Authorization: `Bearer ${token}`,
       },
       method: "get",
-      url: `http://localhost:3000/pets`,
+      url: `${uri}/pets`,
     };
 
     axios(configuration)
@@ -53,7 +56,7 @@ function PetsView({ token }) {
   return (
     <>
       {pets.map((pet) => (
-        <Card key={pet._id} sx={{ maxWidth: 345, marginBottom: 16 }}>
+        <Card key={pet._id} sx={{ maxWidth: 600, marginBottom: 16 }}>
           {pet.avatar && (
             <CardMedia
               sx={{ height: 140 }}
@@ -62,10 +65,16 @@ function PetsView({ token }) {
             />
           )}
           <CardContent>
-            <Typography gutterBottom variant="h6" component="div">
-              Your Pet: {pet.name}
+            <Typography variant="h3" fontFamily="BeautifulBarbies">
+              {pet.name}
+            </Typography>
+            <Typography variant="subtitle2" align="left">
+              <ul>Gender: {pet.gender}</ul>
+              <ul>Species: {pet.species}</ul>
+              <ul>Color: {pet.color}</ul>
             </Typography>
             <Tags label="Likes" tags={pet.likes} />
+            <Tags label="Dislikes" tags={pet.dislikes} />
           </CardContent>
           <CardActions>
             <Button size="small">Share</Button>

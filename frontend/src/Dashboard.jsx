@@ -1,4 +1,5 @@
 import { Authenticated } from "./types/Authentication";
+import { Typography } from "@mui/material";
 
 Dashboard.propTypes = {
   ...Authenticated,
@@ -8,11 +9,11 @@ function Dashboard({ user }) {
   return (
     <>
       {user ? (
-        <p>Hello, {user.name}! Welcome to Meowtel App.</p>
+        <Typography>Hello, {user.name}! Welcome to Meowtel App.</Typography>
       ) : (
-        <p>
+        <Typography>
           You are not authorized to view this page. Please log in for access.
-        </p>
+        </Typography>
       )}
     </>
   );

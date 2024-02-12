@@ -9,7 +9,7 @@ const Tags = ({ tags, label }) => (
       alignItems: "center",
     }}
   >
-    <Typography variant="h4" fontFamily="BeautifulBarbies" sx={{ pr: 6 }}>
+    <Typography fontFamily="BeautifulBarbies" sx={{ pr: 7, fontSize: "25px" }}>
       {label}
     </Typography>
     {tags.map((tag, index) => (

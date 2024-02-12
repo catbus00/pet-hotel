@@ -3,14 +3,15 @@ import VerticalBox from "./components/VerticalBox";
 import InputSelect from "./components/InputSelect";
 import { useState, useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import InputTextField from "./components/InputTextField";
 import HorizontalBox from "./components/HorizontalBox";
 import Combobox from "./Combobox";
 import axios from "axios";
+import { Config } from "./types/Config";
+import { Authenticated } from "./types/Authentication";
 
 // Add Pet Function
-function AddPet({ user }) {
+function AddPet({ user, uri }) {
   const [hotels, setHotels] = useState([]);
 
   const {
@@ -33,7 +34,7 @@ function AddPet({ user }) {
 
   const getHotels = () => {
     axios
-      .get("http://localhost:3000/hotels")
+      .get(`${uri}/hotels`)
       .then((res) => {
         if (Array.isArray(res.data.hotels)) {
           const hotels = res.data.hotels.map((hotel) => ({
@@ -227,5 +228,10 @@ function AddPet({ user }) {
     </>
   );
 }
+
+AddPet.propTypes = {
+  ...Config,
+  ...Authenticated,
+};
 
 export default AddPet;
