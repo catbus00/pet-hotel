@@ -7,7 +7,7 @@ services:
     startCommand: node app.js
   - type: web
     name: frontend
-    runtime: node
+    runtime: static
     rootDir: frontend
-    buildCommand: npm i --production && vite build
+    buildCommand: npm i && vite build
     staticPublishPath: ./dist
