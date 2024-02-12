@@ -91,8 +91,8 @@ const xss = require("xss-clean");
 const rateLimiter = require("express-rate-limit");
 const cors = require("cors");
 const corsOptions = {
-  origin: process.env.ORIGIN || "http://127.0.0.1:5173",
   credentials: true,
+  origin: process.env.ORIGIN || "http://127.0.0.1:5173",
   optionsSuccessStatus: 200,
 };
 
