@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "react-dotenv",
+    "prebuild": "cp index.html public && react-dotenv",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "fix": "eslint . --ext js,jsx --fix",
