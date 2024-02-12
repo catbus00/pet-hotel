@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { Authenticator } from "./types/Authentication";
 import { Navigation } from "./types/Navigation";
+import axios from "axios";
 
 const settings = ["Profile", "Dashboard", "Settings", "Logout"];
 
@@ -42,9 +43,16 @@ function MeowtelAppBar({ setUser, setToken, navigate }) {
     const setting =
       settings.length > index && index >= 0 ? settings[index] : undefined;
     if (setting && setting === "Logout") {
-      setUser(null);
-      setToken(null);
-      navigate("/");
+      axios
+        .get("http://localhost:3000/auth/logoff")
+        .then(() => {
+          setUser(null);
+          setToken(null);
+          navigate("/");
+        })
+        .catch((error) => {
+          console.error("Error logging off:", error);
+        });
     }
   };
 

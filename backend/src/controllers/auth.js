@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const { StatusCodes } = require("http-status-codes");
+const csrf = require("host-csrf");
 
 const register = async (req, res) => {
   const user = await User.create({ ...req.body });
@@ -27,7 +28,18 @@ const login = async (req, res) => {
   res.status(StatusCodes.OK).json({ user: user.name, token, role: user.role });
 };
 
+const logoff = async (req, res) => {
+  req.session.destroy(function (err) {
+    if (err) {
+      console.log(err);
+    }
+    csrf.refresh(req, res);
+    res.redirect("/");
+  });
+};
+
 module.exports = {
   register,
   login,
+  logoff,
 };
