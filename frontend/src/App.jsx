@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import {
   Routes,
   Route,
@@ -21,24 +21,27 @@ function Root() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
 
-  useEffect(() => {
-    const storedToken = sessionStorage.getItem("authToken");
-    const storedUser = sessionStorage.getItem("authUser");
-
-    if (storedToken) {
-      setToken(storedToken);
-      console.log("retrieved token from storage");
-    } else {
-      console.log("Token not found in session storage");
+  useMemo(() => {
+    if (!user) {
+      const storedUser = sessionStorage.getItem("authUser");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+        console.log("retrieved user from storage");
+      } else {
+        console.log("User not found in session storage");
+      }
     }
 
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      console.log("retrieved user from storage");
-    } else {
-      console.log("User not found in session storage");
+    if (!token) {
+      const storedToken = sessionStorage.getItem("authToken");
+      if (storedToken) {
+        setToken(storedToken);
+        console.log("retrieved token from storage");
+      } else {
+        console.log("Token not found in session storage");
+      }
     }
-  }, [setToken, setUser]);
+  }, [user, token]);
 
   const navigate = useNavigate();
   return (

@@ -7,7 +7,6 @@ import { Navigation as NavigationProps } from "./types/Navigation";
 import Navigation from "./Navigation";
 
 function ProtectedRoute({ user, token, setUser, setToken, navigate }) {
-  console.log("protected route");
   if (!user || !token) {
     return <Navigate to="/" replace />;
   }

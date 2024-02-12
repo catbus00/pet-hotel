@@ -45,13 +45,13 @@ function MeowtelAppBar({ setUser, setToken, navigate }) {
       settings.length > index && index >= 0 ? settings[index] : undefined;
     console.log(setting);
     if (setting && setting === "Logout") {
-      console.log("about to logout");
       axios
         .get("http://localhost:3000/auth/logoff")
         .then(() => {
-          console.log("logout");
           setUser(null);
           setToken(null);
+          sessionStorage.removeItem("authUser");
+          sessionStorage.removeItem("authToken");
         })
         .catch((error) => {
           console.error("Error logging off:", error);

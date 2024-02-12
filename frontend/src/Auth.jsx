@@ -90,12 +90,13 @@ function Auth({ setUser, setToken, navigate }) {
         if (result.status === HttpStatusCode.Ok) {
           const { user, token, role } = result.data;
 
-          setUser({ name: user, email, role });
-          setToken(token);
           sessionStorage.setItem(
             "authUser",
             JSON.stringify({ name: user, email, role }),
           );
+          sessionStorage.setItem("authToken", token);
+          setUser({ name: user, email, role });
+          setToken(token);
           navigate("/dashboard");
         }
       })
