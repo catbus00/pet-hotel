@@ -26,9 +26,6 @@ function Root() {
       const storedUser = sessionStorage.getItem("authUser");
       if (storedUser) {
         setUser(JSON.parse(storedUser));
-        console.log("retrieved user from storage");
-      } else {
-        console.log("User not found in session storage");
       }
     }
 
@@ -36,9 +33,6 @@ function Root() {
       const storedToken = sessionStorage.getItem("authToken");
       if (storedToken) {
         setToken(storedToken);
-        console.log("retrieved token from storage");
-      } else {
-        console.log("Token not found in session storage");
       }
     }
   }, [user, token]);
