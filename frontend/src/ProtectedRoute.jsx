@@ -1,23 +1,31 @@
 import { Navigate, Outlet } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Pet as userType } from "./types/Pet";
+import AppBar from "./AppBar";
+import { User } from "./types/User";
+import { Authenticator } from "./types/Authentication";
+import { Navigation as NavigationProps } from "./types/Navigation";
+import Navigation from "./Navigation";
 
-const ProtectedRoute = ({ user, redirectPath = "/landing", children }) => {
-  if (!user) {
-    return <Navigate to={redirectPath} replace />;
+function ProtectedRoute({ user, token, setUser, setToken, navigate }) {
+  console.log("protected route");
+  if (!user || !token) {
+    return <Navigate to="/" replace />;
   }
 
-  return children || <Outlet />;
-};
+  return (
+    <>
+      <AppBar setUser={setUser} setToken={setToken} navigate={navigate} />
+      <Outlet />
+      <Navigation />
+    </>
+  );
+}
 
 ProtectedRoute.propTypes = {
-  isAllowed: PropTypes.bool.isRequired,
-  user: PropTypes.shape(userType),
-  redirectPath: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.element.isRequired,
-    PropTypes.arrayOf(PropTypes.element.isRequired),
-  ]),
+  ...Authenticator,
+  ...NavigationProps,
+  user: PropTypes.shape(User),
+  token: PropTypes.string,
 };
 
 export default ProtectedRoute;

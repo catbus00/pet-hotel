@@ -91,8 +91,11 @@ function Auth({ setUser, setToken, navigate }) {
           const { user, token, role } = result.data;
 
           setUser({ name: user, email, role });
-          setToken(token)
-          sessionStorage.setItem("authUser", JSON.stringify({ name: user, email, role }));
+          setToken(token);
+          sessionStorage.setItem(
+            "authUser",
+            JSON.stringify({ name: user, email, role }),
+          );
           navigate("/dashboard");
         }
       })

@@ -46,9 +46,9 @@ function Navigation() {
             component={Link}
             to="/pets"
           />
-          <StyledFab color="secondary" aria-label="add">
+          {/* <StyledFab color="secondary" aria-label="add">
             <AddIcon />
-          </StyledFab>
+          </StyledFab> */}
           <BottomNavigationAction
             label="Hotels"
             icon={<HotelIcon />}

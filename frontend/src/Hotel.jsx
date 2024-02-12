@@ -6,7 +6,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import VerticalBox from "./components/VerticalBox";
 import { useForm } from "react-hook-form";
 import InputTextField from "./components/InputTextField";
-import Navigation from "./Navigation";
 
 // Add Hotel Function
 function AddHotel({ user }) {
@@ -72,7 +71,6 @@ function AddHotel({ user }) {
           </Button>
         </VerticalBox>
       </form>
-      <Navigation />
     </>
   );
 }

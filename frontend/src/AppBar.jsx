@@ -40,26 +40,27 @@ function MeowtelAppBar({ setUser, setToken, navigate }) {
 
   const handleCloseUserMenu = (index) => {
     setAnchorElUser(null);
+    console.log(index);
     const setting =
       settings.length > index && index >= 0 ? settings[index] : undefined;
+    console.log(setting);
     if (setting && setting === "Logout") {
+      console.log("about to logout");
       axios
         .get("http://localhost:3000/auth/logoff")
         .then(() => {
+          console.log("logout");
           setUser(null);
           setToken(null);
-          navigate("/");
         })
         .catch((error) => {
           console.error("Error logging off:", error);
         });
     }
     if (setting && setting === "Profile") {
-      axios
-        .get(navigate("/profile"))
-        .catch((error) => {
-          console.error("Error getting Profile:", error);
-        });
+      axios.get(navigate("/profile")).catch((error) => {
+        console.error("Error getting Profile:", error);
+      });
     }
     if (setting && setting === "Dashboard") {
       axios.get(navigate("/dashboard")).catch((error) => {

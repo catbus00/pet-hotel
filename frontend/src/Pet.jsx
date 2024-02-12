@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import InputTextField from "./components/InputTextField";
 import HorizontalBox from "./components/HorizontalBox";
 import Combobox from "./Combobox";
-import Navigation from "./Navigation";
 import axios from "axios";
 
 // Add Pet Function
@@ -225,7 +224,6 @@ function AddPet({ user }) {
           </Button>
         </VerticalBox>
       </form>
-      <Navigation />
     </>
   );
 }

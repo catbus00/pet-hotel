@@ -1,7 +1,5 @@
-import { Pet } from "./types/Pet";
 import ProfileHeader from "./components/ProfileHeader";
 import Tags from "./components/Tags";
-import Navigation from "./Navigation";
 
 const KOKO = {
   nickname: "Koko",
@@ -44,7 +42,6 @@ function Profile() {
       />
       <Tags label="Likes" tags={likes} />
       <Tags label="Dislikes" tags={dislikes} />
-      <Navigation />
     </>
   );
 }
