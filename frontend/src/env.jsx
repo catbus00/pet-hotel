@@ -1,4 +1,3 @@
-import env from "react-dotenv";
-
-export const DOMAIN = env?.DOMAIN || "http://localhost";
-export const PORT = env?.PORT || 3000;
+export const DOMAIN =
+  import.meta.env.VITE_DOMAIN || "https://meowtel-backend.onrender.com";
+export const PORT = import.meta.env.VITE_PORT || 10000;

@@ -8,10 +8,6 @@ import "dotenv/config";
 export default defineConfig({
   plugins: [svgr(), react()],
   root: ".",
-  server: {
-    host: process.env.DOMAIN,
-    port: process.env.PORT,
-  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
