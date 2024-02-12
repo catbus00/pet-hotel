@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm i --production
+    startCommand: node app.js
+  - type: web
+    name: frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: npm i --production && vite build
+    staticPublishPath: ./dist
