@@ -26,7 +26,10 @@ function Navigation() {
 
   return (
     <>
-      <Box>
+      <Box
+        sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+        elevation={3}
+      >
         <BottomNavigation
           showLabels
           value={value}
