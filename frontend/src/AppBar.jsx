@@ -137,7 +137,7 @@ function MeowtelAppBar({ setUser, setToken, navigate }) {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Koa" src="../public/photos/koa.jpg" />
+                <Avatar alt="Koa" src="../photos/koa.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
