@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import {
   Routes,
   Route,
@@ -17,26 +17,19 @@ import Landing from "./Landing";
 
 const router = createBrowserRouter([{ path: "*", Component: Root }]);
 
+const retrieveStoredUser = () => {
+  const storedUser = sessionStorage.getItem("authUser");
+  if (storedUser) {
+    return JSON.parse(storedUser);
+  }
+  return undefined;
+};
+
+const retrieveStoredToken = () => sessionStorage.getItem("authToken");
+
 function Root() {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-
-  useMemo(() => {
-    if (!user) {
-      const storedUser = sessionStorage.getItem("authUser");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-    }
-
-    if (!token) {
-      const storedToken = sessionStorage.getItem("authToken");
-      if (storedToken) {
-        setToken(storedToken);
-      }
-    }
-  }, [user, token]);
-
+  const [user, setUser] = useState(retrieveStoredUser());
+  const [token, setToken] = useState(retrieveStoredToken());
   const navigate = useNavigate();
   return (
     <Routes>

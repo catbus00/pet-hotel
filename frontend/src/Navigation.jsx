@@ -4,7 +4,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import PetsIcon from "@mui/icons-material/Pets";
 import HotelIcon from "@mui/icons-material/Hotel";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import AddIcon from "@mui/icons-material/Add";
 import {
   styled,
   Fab,
@@ -15,14 +14,6 @@ import {
 
 function Navigation() {
   const [value, setValue] = React.useState(0);
-  const StyledFab = styled(Fab)({
-    position: "absolute",
-    zIndex: 1,
-    top: 230,
-    left: 0,
-    right: 0,
-    margin: "0 auto",
-  });
 
   return (
     <>

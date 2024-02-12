@@ -4,6 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import Tags from "./components/Tags";
 import Pet from "./Pet";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -61,12 +62,10 @@ function PetsView({ token }) {
             />
           )}
           <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {pet.species}
+            <Typography gutterBottom variant="h6" component="div">
+              Your Pet: {pet.name}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {pet.description}
-            </Typography>
+            <Tags label="Likes" tags={pet.likes} />
           </CardContent>
           <CardActions>
             <Button size="small">Share</Button>
