@@ -32,29 +32,28 @@ function AddPet({ user }) {
     },
   });
 
-  const getHotels = () => {
-    axios
-      .get(`${API}/hotels`)
-      .then((res) => {
-        if (Array.isArray(res.data.hotels)) {
-          const hotels = res.data.hotels.map((hotel) => ({
-            label: hotel.name,
-            id: hotel._id,
-          }));
-          setHotels(hotels);
-        } else {
-          console.error(
-            "Invalid response format: res.data.hotels is not an array.",
-          );
-          // TODO send error to child component: Combobox
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  };
-
   useEffect(() => {
+    const getHotels = () => {
+      axios
+        .get(`${API}/hotels`)
+        .then((res) => {
+          if (Array.isArray(res.data.hotels)) {
+            const hotels = res.data.hotels.map((hotel) => ({
+              label: hotel.name,
+              id: hotel._id,
+            }));
+            setHotels(hotels);
+          } else {
+            console.error(
+              "Invalid response format: res.data.hotels is not an array.",
+            );
+            // TODO send error to child component: Combobox
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    };
     getHotels();
   }, []);
 
