@@ -9,16 +9,15 @@ import {
 } from "@mui/material";
 import axios, { HttpStatusCode } from "axios";
 import { Secure } from "./types/Secure";
-import { Config } from "./types/Config";
+import { API } from "./env";
 
 // Register and Login Function
 
 Auth.propTypes = {
   ...Secure,
-  ...Config,
 };
 
-function Auth({ setUser, setToken, navigate, uri }) {
+function Auth({ setUser, setToken, navigate }) {
   // schema
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -45,7 +44,7 @@ function Auth({ setUser, setToken, navigate, uri }) {
       "Content-Type": "application/json",
     },
     method: "post",
-    url: `${uri}/auth/${mode}`,
+    url: `${API}/auth/${mode}`,
     data: { email, password },
   };
 

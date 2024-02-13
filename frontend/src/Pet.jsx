@@ -7,11 +7,11 @@ import InputTextField from "./components/InputTextField";
 import HorizontalBox from "./components/HorizontalBox";
 import Combobox from "./Combobox";
 import axios from "axios";
-import { Config } from "./types/Config";
 import { Authenticated } from "./types/Authentication";
+import { API } from "./env";
 
 // Add Pet Function
-function AddPet({ user, uri }) {
+function AddPet({ user }) {
   const [hotels, setHotels] = useState([]);
 
   const {
@@ -34,7 +34,7 @@ function AddPet({ user, uri }) {
 
   const getHotels = () => {
     axios
-      .get(`${uri}/hotels`)
+      .get(`${API}/hotels`)
       .then((res) => {
         if (Array.isArray(res.data.hotels)) {
           const hotels = res.data.hotels.map((hotel) => ({
@@ -230,7 +230,6 @@ function AddPet({ user, uri }) {
 }
 
 AddPet.propTypes = {
-  ...Config,
   ...Authenticated,
 };
 

@@ -9,15 +9,17 @@ import {
   CardMedia,
   Button,
   Typography,
+  Box,
+  List,
+  ListItemText,
 } from "@mui/material";
-import { Config } from "./types/Config";
+import { API } from "./env";
 
 PetsView.propTypes = {
   token: PropTypes.string,
-  ...Config,
 };
 
-function PetsView({ token, uri }) {
+function PetsView({ token }) {
   const [pets, setPets] = useState([]);
 
   const getPets = () => {
@@ -28,7 +30,7 @@ function PetsView({ token, uri }) {
         Authorization: `Bearer ${token}`,
       },
       method: "get",
-      url: `${uri}/pets`,
+      url: `${API}/pets`,
     };
 
     axios(configuration)
@@ -64,21 +66,29 @@ function PetsView({ token, uri }) {
               title={pet.name}
             />
           )}
-          <CardContent>
-            <Typography variant="h3" fontFamily="BeautifulBarbies">
+          <CardContent sx={{ marginTop: "25px", marginBottom: "25px" }}>
+            <Typography gutterBottom variant="h3" fontFamily="BeautifulBarbies">
               {pet.name}
             </Typography>
-            <Typography variant="subtitle2" align="left">
-              <ul>Gender: {pet.gender}</ul>
-              <ul>Species: {pet.species}</ul>
-              <ul>Color: {pet.color}</ul>
-            </Typography>
-            <Tags label="Likes" tags={pet.likes} />
-            <Tags label="Dislikes" tags={pet.dislikes} />
+            <List>
+              <ListItemText>Gender: {pet.gender}</ListItemText>
+              <ListItemText>Species: {pet.species}</ListItemText>
+              <ListItemText>Color: {pet.color}</ListItemText>
+            </List>
+            <Box
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                flexWrap: "wrap",
+              }}
+            >
+              <Tags label="Likes" tags={pet.likes} />
+              <Tags label="Dislikes" tags={pet.dislikes} />
+            </Box>
           </CardContent>
           <CardActions>
-            <Button size="small">Share</Button>
-            <Button size="small">Learn More</Button>
+            <Button size="small">Edit</Button>
+            <Button size="small">Delete</Button>
           </CardActions>
         </Card>
       ))}

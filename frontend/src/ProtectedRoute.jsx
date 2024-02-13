@@ -5,9 +5,8 @@ import { User } from "./types/User";
 import { Authenticator } from "./types/Authentication";
 import { Navigation as NavigationProps } from "./types/Navigation";
 import Navigation from "./Navigation";
-import { Config } from "./types/Config";
 
-function ProtectedRoute({ user, token, setUser, setToken, navigate, uri }) {
+function ProtectedRoute({ user, token, setUser, setToken, navigate }) {
   if (!user || !token) {
     return <Navigate to="/" replace />;
   }
@@ -15,13 +14,12 @@ function ProtectedRoute({ user, token, setUser, setToken, navigate, uri }) {
   return (
     <>
       <AppBar
-        uri={uri}
         setUser={setUser}
         setToken={setToken}
         navigate={navigate}
       />
       <Outlet />
-      <Navigation />
+      <Navigation user={user} />
     </>
   );
 }
@@ -31,7 +29,6 @@ ProtectedRoute.propTypes = {
   ...NavigationProps,
   user: PropTypes.shape(User),
   token: PropTypes.string,
-  ...Config,
 };
 
 export default ProtectedRoute;

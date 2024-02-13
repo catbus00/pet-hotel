@@ -15,17 +15,16 @@ import {
 import { Authenticator } from "./types/Authentication";
 import { Navigation } from "./types/Navigation";
 import axios from "axios";
-import { Config } from "./types/Config";
+import { API } from "./env";
 
 const settings = ["Profile", "Dashboard", "Settings", "Logout"];
 
 MeowtelAppBar.propTypes = {
   ...Authenticator,
   ...Navigation,
-  ...Config,
 };
 
-function MeowtelAppBar({ setUser, setToken, navigate, uri }) {
+function MeowtelAppBar({ setUser, setToken, navigate }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -48,7 +47,7 @@ function MeowtelAppBar({ setUser, setToken, navigate, uri }) {
     console.log(setting);
     if (setting && setting === "Logout") {
       axios
-        .get(`${uri}/auth/logoff`)
+        .get(`${API}/auth/logoff`)
         .then(() => {
           setUser(null);
           setToken(null);
