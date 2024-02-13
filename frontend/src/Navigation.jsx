@@ -47,6 +47,29 @@ function Navigation({ user }) {
   return (
     <>
       <Box sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}>
+        <StyledFab color="secondary" aria-label="add">
+          <AddIcon onClick={() => handleClickOpen({ user })} />
+          <Dialog fullScreen open={open} onClose={handleClose} keepMounted>
+            <Slide direction="up" in={true}>
+              <DialogContent>
+                <AppBar sx={{ position: "relative" }}>
+                  <Toolbar>
+                    <IconButton
+                      edge="start"
+                      color="inherit"
+                      onClick={handleClose}
+                      aria-label="close"
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  </Toolbar>
+                </AppBar>
+                {showAddHotel && <AddHotel user={user} />}
+                {showAddPet && <AddPet user={user} />}
+              </DialogContent>
+            </Slide>
+          </Dialog>
+        </StyledFab>
         <BottomNavigation
           showLabels
           value={value}
@@ -66,29 +89,6 @@ function Navigation({ user }) {
             component={Link}
             to="/pets"
           />
-          <StyledFab color="secondary" aria-label="add">
-            <AddIcon onClick={() => handleClickOpen({ user })} />
-            <Dialog fullScreen open={open} onClose={handleClose} keepMounted>
-              <Slide direction="up">
-                <DialogContent>
-                  <AppBar sx={{ position: "relative" }}>
-                    <Toolbar>
-                      <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={handleClose}
-                        aria-label="close"
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                    </Toolbar>
-                  </AppBar>
-                  {showAddHotel && <AddHotel user={user} />}
-                  {showAddPet && <AddPet user={user} />}
-                </DialogContent>
-              </Slide>
-            </Dialog>
-          </StyledFab>
           <BottomNavigationAction
             label="Hotels"
             icon={<HotelIcon />}
