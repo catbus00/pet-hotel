@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import PetsIcon from "@mui/icons-material/Pets";
@@ -8,7 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import AddPet from "./Pet";
 import AddHotel from "./Hotel";
-import { Dialog, Slide, Toolbar, IconButton, AppBar } from "@mui/material/";
+import { Dialog, Slide, Toolbar, IconButton, AppBar } from "@mui/material";
 import {
   styled,
   Fab,
@@ -17,6 +17,7 @@ import {
   BottomNavigationAction,
 } from "@mui/material";
 import { Authenticated } from "./types/Authentication";
+import { DialogContent } from "@mui/material/";
 
 const StyledFab = styled(Fab)({
   position: "absolute",
@@ -25,10 +26,6 @@ const StyledFab = styled(Fab)({
   left: 0,
   right: 0,
   margin: "0 auto",
-});
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
 });
 
 function Navigation({ user }) {
@@ -71,26 +68,25 @@ function Navigation({ user }) {
           />
           <StyledFab color="secondary" aria-label="add">
             <AddIcon onClick={() => handleClickOpen({ user })} />
-            <Dialog
-              fullScreen
-              open={open}
-              onClose={handleClose}
-              TransitionComponent={Transition}
-            >
-              <AppBar sx={{ position: "relative" }}>
-                <Toolbar>
-                  <IconButton
-                    edge="start"
-                    color="inherit"
-                    onClick={handleClose}
-                    aria-label="close"
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                </Toolbar>
-              </AppBar>
-              {showAddHotel && <AddHotel user={user} />}
-              {showAddPet && <AddPet user={user} />}
+            <Dialog fullScreen open={open} onClose={handleClose} keepMounted>
+              <Slide direction="up">
+                <DialogContent>
+                  <AppBar sx={{ position: "relative" }}>
+                    <Toolbar>
+                      <IconButton
+                        edge="start"
+                        color="inherit"
+                        onClick={handleClose}
+                        aria-label="close"
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                    </Toolbar>
+                  </AppBar>
+                  {showAddHotel && <AddHotel user={user} />}
+                  {showAddPet && <AddPet user={user} />}
+                </DialogContent>
+              </Slide>
             </Dialog>
           </StyledFab>
           <BottomNavigationAction
