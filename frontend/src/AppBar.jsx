@@ -59,14 +59,10 @@ function MeowtelAppBar({ setUser, setToken, navigate }) {
         });
     }
     if (setting && setting === "Profile") {
-      axios.get(navigate("/profile")).catch((error) => {
-        console.error("Error getting Profile:", error);
-      });
+      navigate("/profile");
     }
     if (setting && setting === "Dashboard") {
-      axios.get(navigate("/dashboard")).catch((error) => {
-        console.error("Error getting Profile:", error);
-      });
+      navigate("/dashboard");
     }
   };
 
