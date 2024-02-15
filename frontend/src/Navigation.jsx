@@ -95,16 +95,13 @@ function Navigation({ user, token }) {
             label="My Pets"
             icon={<PetsIcon />}
             component={Link}
-            to="/pets"
+            to={user && user.role == true ? "/pets/owned" : "/pets"}
           />
           <BottomNavigationAction
             label="Hotels"
             icon={<HotelIcon />}
             component={Link}
             to={user && user.role == true ? "/hotels/owned" : "/hotels"}
-            onClick={() => {
-              handleClickHotels({ user });
-            }}
           />
           <BottomNavigationAction
             label="Profile"

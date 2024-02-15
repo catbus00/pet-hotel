@@ -13,6 +13,7 @@ import HotelsView from "./HotelsView";
 import HotelsViewOwned from "./HotelsViewOwned";
 import Dashboard from "./Dashboard";
 import PetsView from "./PetsView";
+import PetsViewOwned from "./PetsViewOwned";
 import Profile from "./Profile";
 import Landing from "./Landing";
 
@@ -58,8 +59,8 @@ function Root() {
           />
         }
       >
-        <Route path="pets" element={<PetsView token={token} />} />
-
+        <Route path="pets/owned" element={<PetsViewOwned token={token} />} />
+        <Route path="pets/" element={<PetsView token={token} />} />
         <Route path="hotels" element={<HotelsView user={user} />} />
         <Route
           path="hotels/owned"
