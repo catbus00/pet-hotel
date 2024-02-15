@@ -56,6 +56,43 @@ function HotelsView({ token }) {
       });
   };
 
+  const deleteHotel = async (hotelId) => {
+    try {
+      const configuration = {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        method: "delete",
+        url: `${API}/hotels/${hotelId}`,
+      };
+
+      const res = await axios(configuration);
+      getHotels();
+      if (Array.isArray(res.data.hotels) && res.data.hotels.length > 0) {
+        setHotels(res.data.hotels);
+      } else {
+        console.error(
+          "Invalid response format: res.data.hotels is not an array.",
+        );
+        // TODO send error to child component: Combobox
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        console.error("Unauthorized access.", error);
+      } else {
+        console.error("Error fetching data:", error);
+      }
+    }
+  };
+
+  const handleDeleteClick = async (hotelId) => {
+    if (window.confirm("Are you sure you want to delete this hotel?")) {
+      await deleteHotel(hotelId);
+    }
+  };
+
   useEffect(() => {
     getHotels();
   }, []);
@@ -91,7 +128,9 @@ function HotelsView({ token }) {
           </CardContent>
           <CardActions>
             <Button size="small">Edit</Button>
-            <Button size="small">Delete</Button>
+            <Button size="small" onClick={() => handleDeleteClick(hotel._id)}>
+              Delete
+            </Button>
           </CardActions>
         </Card>
       ))}
