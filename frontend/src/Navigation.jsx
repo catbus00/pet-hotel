@@ -7,9 +7,17 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import AddPet from "./Pet";
+import HotelsView from "./HotelsView";
+import HotelsViewOwned from "./HotelsViewOwned";
 import AddHotel from "./Hotel";
-import { Dialog, Slide, Toolbar, IconButton, AppBar } from "@mui/material";
+import PropTypes from "prop-types";
+
 import {
+  Dialog,
+  Slide,
+  Toolbar,
+  IconButton,
+  AppBar,
   styled,
   Fab,
   Box,
@@ -28,7 +36,7 @@ const StyledFab = styled(Fab)({
   margin: "0 auto",
 });
 
-function Navigation({ user }) {
+function Navigation({ user, token }) {
   const [value, setValue] = React.useState(0);
   const [showAddHotel, setShowAddHotel] = useState(false);
   const [showAddPet, setShowAddPet] = useState(false);
@@ -52,7 +60,7 @@ function Navigation({ user }) {
           <Dialog fullScreen open={open} onClose={handleClose} keepMounted>
             <Slide direction="up" in={true}>
               <DialogContent>
-                <AppBar sx={{ position: "relative" }}>
+                <AppBar sx={{ position: "relative", marginBottom: "16.5px" }}>
                   <Toolbar>
                     <IconButton
                       edge="start"
@@ -93,7 +101,10 @@ function Navigation({ user }) {
             label="Hotels"
             icon={<HotelIcon />}
             component={Link}
-            to="/hotels"
+            to={user && user.role == true ? "/hotels/owned" : "/hotels"}
+            onClick={() => {
+              handleClickHotels({ user });
+            }}
           />
           <BottomNavigationAction
             label="Profile"
@@ -109,6 +120,7 @@ function Navigation({ user }) {
 
 Navigation.propTypes = {
   ...Authenticated,
+  token: PropTypes.string,
 };
 
 export default Navigation;

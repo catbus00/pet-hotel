@@ -9,7 +9,8 @@ import {
 import "./App.css";
 import ProtectedRoute from "./ProtectedRoute";
 import Admin from "./Admin";
-import Hotel from "./Hotel";
+import HotelsView from "./HotelsView";
+import HotelsViewOwned from "./HotelsViewOwned";
 import Dashboard from "./Dashboard";
 import PetsView from "./PetsView";
 import Profile from "./Profile";
@@ -58,7 +59,12 @@ function Root() {
         }
       >
         <Route path="pets" element={<PetsView token={token} />} />
-        <Route path="hotels" element={<Hotel user={user} />} />
+
+        <Route path="hotels" element={<HotelsView user={user} />} />
+        <Route
+          path="hotels/owned"
+          element={<HotelsViewOwned token={token} />}
+        />
         <Route path="profile" element={<Profile />} />
         <Route path="dashboard" element={<Dashboard user={user} />} />
         <Route path="admin" element={<Admin user={user} />} />
@@ -70,9 +76,7 @@ function Root() {
 }
 
 const App = () => {
-  const router = createBrowserRouter([
-    { path: "*", element: <Root /> },
-  ]);
+  const router = createBrowserRouter([{ path: "*", element: <Root /> }]);
   return <RouterProvider router={router} />;
 };
 
