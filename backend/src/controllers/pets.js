@@ -1,9 +1,21 @@
 const Pet = require("../models/Pet");
+
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError, NotFoundError } = require("../errors/");
+const Hotel = require("../models/Hotel");
 
 const getAllPets = async (req, res) => {
   const pets = await Pet.find({ createdBy: req.user.userId }).sort("createdAt");
+  res.status(StatusCodes.OK).json({ pets, count: pets.length });
+};
+
+const getAllHotelsPets = async (req, res) => {
+  const hotels = (await Hotel.find({ createdBy: req.user.userId })).map(
+    (doc) => doc._id,
+  );
+  const pets = await Pet.find({
+    hotel: { $in: hotels },
+  }).sort("createdAt");
   res.status(StatusCodes.OK).json({ pets, count: pets.length });
 };
 
@@ -73,6 +85,7 @@ const deletePet = async (req, res) => {
 
 module.exports = {
   getAllPets,
+  getAllHotelsPets,
   getPet,
   addPet,
   updatePet,
