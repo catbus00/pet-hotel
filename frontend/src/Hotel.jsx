@@ -6,24 +6,39 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import VerticalBox from "./components/VerticalBox";
 import { useForm } from "react-hook-form";
 import InputTextField from "./components/InputTextField";
-import { Authenticated } from "./types/Authentication";
+import PropTypes from "prop-types";
+import { Hotel } from "./types/Hotel";
+import { API } from "./env";
 
 // Add Hotel Function
-function AddHotel({ user }) {
+function AddHotel({ hotel, token }) {
   const {
     handleSubmit,
     formState: { errors },
     control,
   } = useForm({
     defaultValues: {
-      name: "",
-      description: "",
-      year: "",
+      name: hotel ? hotel.name : "",
+      description: hotel ? hotel.description : "",
+      year: hotel ? hotel.year : "",
     },
   });
   const today = dayjs();
-  const onSubmit = (data) => {
-    console.log("on submit hotel data", data);
+  const onSubmit = () => {
+    console.log(`on submit hotel`);
+    if (!hotel) {
+      // TODO: this is an Add Hotel
+    } else {
+      // const configuration = {
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      //   method: "patch",
+      //   url: `${API}/hotels/${selectedHotel._id}`,
+      // };
+    }
   };
 
   return (
@@ -65,9 +80,14 @@ function AddHotel({ user }) {
               name="year"
               sx={{ marginBottom: "16.5px" }}
               maxDate={today}
+              value={today}
             />
           </LocalizationProvider>
-          <Button variant="contained" type="submit" onClick={handleSubmit}>
+          <Button
+            variant="contained"
+            type="submit"
+            onClick={() => handleSubmit}
+          >
             Submit
           </Button>
         </VerticalBox>
@@ -77,7 +97,8 @@ function AddHotel({ user }) {
 }
 
 AddHotel.propTypes = {
-  ...Authenticated,
+  token: PropTypes.string,
+  hotel: PropTypes.shape(Hotel),
 };
 
 export default AddHotel;

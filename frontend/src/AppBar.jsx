@@ -90,7 +90,7 @@ function MeowtelAppBar({ setUser, setToken, navigate }) {
             variant="h6"
             noWrap
             component="a"
-            href="#meowtel-app-bar"
+            href="/dashboard"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },

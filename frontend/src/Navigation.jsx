@@ -7,8 +7,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import AddPet from "./Pet";
-import HotelsView from "./HotelsView";
-import HotelsViewOwned from "./HotelsViewOwned";
 import AddHotel from "./Hotel";
 import PropTypes from "prop-types";
 

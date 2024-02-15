@@ -1,27 +1,19 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Button,
-  Typography,
-  Box,
-  List,
-  ListItemText,
-} from "@mui/material";
 import { Authenticated } from "./types/Authentication";
 import { API } from "./env";
+import HotelDialogForm from "./HotelDialogForm";
 
-HotelsView.propTypes = {
+HotelsViewOwned.propTypes = {
   token: PropTypes.string,
+  hotelId: PropTypes.string,
   ...Authenticated,
 };
 
-function HotelsView({ token }) {
+function HotelsViewOwned({ token, user }) {
   const [hotels, setHotels] = useState([]);
+  const [selectedHotel, setSelectedHotel] = useState(null);
 
   const getHotels = () => {
     const configuration = {
@@ -93,6 +85,10 @@ function HotelsView({ token }) {
     }
   };
 
+  const handleEditClick = (hotel) => {
+    setSelectedHotel(hotel);
+  };
+
   useEffect(() => {
     getHotels();
   }, []);
@@ -100,42 +96,16 @@ function HotelsView({ token }) {
   return (
     <>
       {hotels.map((hotel) => (
-        <Card key={hotel._id} sx={{ maxWidth: 600, marginBottom: 16 }}>
-          {hotel.avatar && (
-            <CardMedia
-              sx={{ height: 140 }}
-              image={`/static/images/cards/${hotel.avatar}.jpg`}
-              title={hotel.name}
-            />
-          )}
-          <CardContent sx={{ marginTop: "25px", marginBottom: "25px" }}>
-            <Typography gutterBottom variant="h3" fontFamily="BeautifulBarbies">
-              {hotel.name}
-            </Typography>
-            <Box
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                flexWrap: "wrap",
-              }}
-            >
-              <List>
-                <ListItemText>Name: {hotel.name}</ListItemText>
-                <ListItemText>Hotel: {hotel.description}</ListItemText>
-                <ListItemText>Description: {hotel.year}</ListItemText>
-              </List>
-            </Box>
-          </CardContent>
-          <CardActions>
-            <Button size="small">Edit</Button>
-            <Button size="small" onClick={() => handleDeleteClick(hotel._id)}>
-              Delete
-            </Button>
-          </CardActions>
-        </Card>
+        <HotelDialogForm
+          key={`hotel-card-${hotel._id}`}
+          hotel={hotel}
+          handleEditClick={handleEditClick}
+          handleDeleteClick={handleDeleteClick}
+          token={token}
+        />
       ))}
     </>
   );
 }
 
-export default HotelsView;
+export default HotelsViewOwned;

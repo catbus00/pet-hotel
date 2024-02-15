@@ -64,7 +64,7 @@ function Root() {
         <Route path="hotels" element={<HotelsView user={user} />} />
         <Route
           path="hotels/owned"
-          element={<HotelsViewOwned token={token} />}
+          element={<HotelsViewOwned token={token} user={user} />}
         />
         <Route path="profile" element={<Profile />} />
         <Route path="dashboard" element={<Dashboard user={user} />} />
