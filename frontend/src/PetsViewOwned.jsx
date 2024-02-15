@@ -4,10 +4,8 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
   Card,
-  CardActions,
   CardContent,
   CardMedia,
-  Button,
   Typography,
   Box,
   List,
