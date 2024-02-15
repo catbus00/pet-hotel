@@ -15,17 +15,16 @@ import {
 import { Authenticator } from "./types/Authentication";
 import { Navigation } from "./types/Navigation";
 import axios from "axios";
-import { Config } from "./types/Config";
+import { API } from "./env";
 
 const settings = ["Profile", "Dashboard", "Settings", "Logout"];
 
 MeowtelAppBar.propTypes = {
   ...Authenticator,
   ...Navigation,
-  ...Config,
 };
 
-function MeowtelAppBar({ setUser, setToken, navigate, uri }) {
+function MeowtelAppBar({ setUser, setToken, navigate }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -48,7 +47,7 @@ function MeowtelAppBar({ setUser, setToken, navigate, uri }) {
     console.log(setting);
     if (setting && setting === "Logout") {
       axios
-        .get(`${uri}/auth/logoff`)
+        .get(`${API}/auth/logoff`)
         .then(() => {
           setUser(null);
           setToken(null);
@@ -60,14 +59,10 @@ function MeowtelAppBar({ setUser, setToken, navigate, uri }) {
         });
     }
     if (setting && setting === "Profile") {
-      axios.get(navigate("/profile")).catch((error) => {
-        console.error("Error getting Profile:", error);
-      });
+      navigate("/profile");
     }
     if (setting && setting === "Dashboard") {
-      axios.get(navigate("/dashboard")).catch((error) => {
-        console.error("Error getting Profile:", error);
-      });
+      navigate("/dashboard");
     }
   };
 
@@ -95,7 +90,7 @@ function MeowtelAppBar({ setUser, setToken, navigate, uri }) {
             variant="h6"
             noWrap
             component="a"
-            href="#meowtel-app-bar"
+            href="/dashboard"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },

@@ -5,7 +5,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LandingPic from "../src/assets/images/MeowtelLanding.jpg";
 import Auth from "./Auth";
 import { Secure } from "./types/Secure";
-import { Config } from "./types/Config";
 
 function Copyright(props) {
   return (
@@ -29,10 +28,9 @@ const defaultTheme = createTheme();
 
 Landing.propTypes = {
   ...Secure,
-  ...Config,
 };
 
-export default function Landing({ setUser, setToken, navigate, uri }) {
+export default function Landing({ setUser, setToken, navigate }) {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -70,7 +68,6 @@ export default function Landing({ setUser, setToken, navigate, uri }) {
               Sign in
             </Typography>
             <Auth
-              uri={uri}
               setUser={setUser}
               navigate={navigate}
               setToken={setToken}

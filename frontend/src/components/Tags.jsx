@@ -7,6 +7,7 @@ const Tags = ({ tags, label }) => (
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
+      flexWrap: "wrap",
     }}
   >
     <Typography fontFamily="BeautifulBarbies" sx={{ pr: 7, fontSize: "25px" }}>

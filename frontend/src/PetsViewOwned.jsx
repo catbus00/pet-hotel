@@ -4,10 +4,8 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
   Card,
-  CardActions,
   CardContent,
   CardMedia,
-  Button,
   Typography,
   Box,
   List,
@@ -30,7 +28,7 @@ function PetsView({ token }) {
         Authorization: `Bearer ${token}`,
       },
       method: "get",
-      url: `${API}/pets`,
+      url: `${API}/pets/owned`,
     };
 
     axios(configuration)
@@ -84,10 +82,6 @@ function PetsView({ token }) {
               <Tags label="Dislikes" tags={pet.dislikes} />
             </Box>
           </CardContent>
-          <CardActions>
-            <Button size="small">Edit</Button>
-            <Button size="small">Delete</Button>
-          </CardActions>
         </Card>
       ))}
     </>

@@ -1,4 +1,3 @@
-import Tags from "./components/Tags";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
@@ -13,16 +12,18 @@ import {
   List,
   ListItemText,
 } from "@mui/material";
+import { Authenticated } from "./types/Authentication";
 import { API } from "./env";
 
-PetsView.propTypes = {
+HotelsView.propTypes = {
   token: PropTypes.string,
+  ...Authenticated,
 };
 
-function PetsView({ token }) {
-  const [pets, setPets] = useState([]);
+function HotelsView({ token }) {
+  const [hotels, setHotels] = useState([]);
 
-  const getPets = () => {
+  const getHotels = () => {
     const configuration = {
       headers: {
         Accept: "application/json",
@@ -30,49 +31,50 @@ function PetsView({ token }) {
         Authorization: `Bearer ${token}`,
       },
       method: "get",
-      url: `${API}/pets`,
+      url: `${API}/hotels/`,
     };
 
     axios(configuration)
       .then((res) => {
         console.log("Response data:", res.data);
 
-        if (Array.isArray(res.data.pets) && res.data.pets.length > 0) {
-          setPets(res.data.pets);
+        if (Array.isArray(res.data.hotels) && res.data.hotels.length > 0) {
+          setHotels(res.data.hotels);
         } else {
-          console.error("No pets found.");
+          console.error(
+            "Invalid response format: res.data.hotels is not an array.",
+          );
           // TODO send error to child component: Combobox
         }
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        if (error.response && error.response.status === 401) {
+          console.error("Unauthorized access.", error);
+        } else {
+          console.error("Error fetching data:", error);
+        }
       });
   };
 
   useEffect(() => {
-    getPets();
+    getHotels();
   }, []);
 
   return (
     <>
-      {pets.map((pet) => (
-        <Card key={pet._id} sx={{ maxWidth: 600, marginBottom: 16 }}>
-          {pet.avatar && (
+      {hotels.map((hotel) => (
+        <Card key={hotel._id} sx={{ maxWidth: 600, marginBottom: 16 }}>
+          {hotel.avatar && (
             <CardMedia
               sx={{ height: 140 }}
-              image={`/static/images/cards/${pet.avatar}.jpg`}
-              title={pet.name}
+              image={`/static/images/cards/${hotel.avatar}.jpg`}
+              title={hotel.name}
             />
           )}
           <CardContent sx={{ marginTop: "25px", marginBottom: "25px" }}>
             <Typography gutterBottom variant="h3" fontFamily="BeautifulBarbies">
-              {pet.name}
+              {hotel.name}
             </Typography>
-            <List>
-              <ListItemText>Gender: {pet.gender}</ListItemText>
-              <ListItemText>Species: {pet.species}</ListItemText>
-              <ListItemText>Color: {pet.color}</ListItemText>
-            </List>
             <Box
               style={{
                 display: "flex",
@@ -80,18 +82,17 @@ function PetsView({ token }) {
                 flexWrap: "wrap",
               }}
             >
-              <Tags label="Likes" tags={pet.likes} />
-              <Tags label="Dislikes" tags={pet.dislikes} />
+              <List>
+                <ListItemText>Name: {hotel.name}</ListItemText>
+                <ListItemText>Hotel: {hotel.description}</ListItemText>
+                <ListItemText>Description: {hotel.year}</ListItemText>
+              </List>
             </Box>
           </CardContent>
-          <CardActions>
-            <Button size="small">Edit</Button>
-            <Button size="small">Delete</Button>
-          </CardActions>
         </Card>
       ))}
     </>
   );
 }
 
-export default PetsView;
+export default HotelsView;

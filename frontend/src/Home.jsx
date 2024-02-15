@@ -2,15 +2,13 @@ import Container from "@mui/material/Container";
 import { Authenticated } from "./types/Authentication";
 import { Secure } from "./types/Secure";
 import Landing from "./Landing";
-import { Config } from "./types/Config";
 
 Home.propTypes = {
   ...Authenticated,
   ...Secure,
-  ...Config,
 };
 
-export default function Home({ user, setUser, setToken, navigate, uri }) {
+export default function Home({ user, setUser, setToken, navigate }) {
   return (
     <>
       <div>
@@ -23,7 +21,6 @@ export default function Home({ user, setUser, setToken, navigate, uri }) {
               setUser={setUser}
               setToken={setToken}
               navigate={navigate}
-              uri={uri}
             />
           )}
         </Container>

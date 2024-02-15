@@ -9,7 +9,7 @@ const getAllHotels = async (req, res) => {
 
 const getOwnedHotels = async (req, res) => {
   const hotels = await Hotel.find({ createdBy: req.user.userId }).sort(
-    "createdBy userId",
+    "createdAt",
   );
   res.status(StatusCodes.OK).json({ hotels, count: hotels.length });
 };

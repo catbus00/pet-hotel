@@ -134,7 +134,7 @@ const owns = async (req, res, next) => {
 };
 
 app.use("/auth", authRouter);
-app.use("/pets", authenticated, checkUser, petsRouter);
+app.use("/pets", authenticated, petsRouter);
 app.use("/hotels", owns, hotelRouter);
 
 // server initialization
