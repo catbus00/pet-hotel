@@ -24,7 +24,7 @@ function AddHotel({ hotel, token }) {
       year: exists ? dayjs(hotel.year) : null,
     },
   });
-  
+
   const onSubmit = async (hotel) => {
     const formData = {
       name: getValues("name"),
@@ -40,10 +40,9 @@ function AddHotel({ hotel, token }) {
         Authorization: `Bearer ${token}`,
       },
       method: exists ? "patch" : "post",
-      url: exists ? `${API}/hotels/${hotel._id}` : `${API}/hotels`,
+      url: exists ? `${API}/hotels/${exists}` : `${API}/hotels`,
       data: formData,
     };
- 
     try {
       const response = await axios(configuration);
       console.log("API Response:", response.data);
@@ -101,6 +100,7 @@ function AddHotel({ hotel, token }) {
 AddHotel.propTypes = {
   token: PropTypes.string.isRequired,
   hotel: PropTypes.shape(Hotel),
+  hotelId: PropTypes.string,
 };
 
 export default AddHotel;
