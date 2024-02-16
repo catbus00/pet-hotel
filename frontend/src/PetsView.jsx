@@ -49,6 +49,43 @@ function PetsView({ token }) {
       });
   };
 
+  const deletePet = async (petId) => {
+    try {
+      const configuration = {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        method: "delete",
+        url: `${API}/pets/${petId}`,
+      };
+
+      const res = await axios(configuration);
+      getPets();
+      if (Array.isArray(res.data.pets) && res.data.pets.length > 0) {
+        setPets(res.data.pets);
+      } else {
+        console.error(
+          "Invalid response format: res.data.pets is not an array.",
+        );
+        // TODO send error to child component: Combobox
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        console.error("Unauthorized access.", error);
+      } else {
+        console.error("Error fetching data:", error);
+      }
+    }
+  };
+
+  const handleDeleteClick = async (petId) => {
+    if (window.confirm("Are you sure you want to delete this pet?")) {
+      await deletePet(petId);
+    }
+  };
+
   useEffect(() => {
     getPets();
   }, []);
@@ -86,7 +123,9 @@ function PetsView({ token }) {
           </CardContent>
           <CardActions>
             <Button size="small">Edit</Button>
-            <Button size="small">Delete</Button>
+            <Button size="small" onClick={() => handleDeleteClick(pet._id)}>
+              Delete
+            </Button>
           </CardActions>
         </Card>
       ))}
