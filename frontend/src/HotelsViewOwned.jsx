@@ -30,9 +30,6 @@ function HotelsViewOwned({ token, user, hotels, setHotels }) {
     axios(configuration)
       .then((res) => {
         if (Array.isArray(res.data.hotels) && res.data.hotels.length > 0) {
-          console.log(
-            `in hotels view owned on success refresh with array:\n${JSON.stringify(res.data.hotels, null, 2)}`,
-          );
           setHotels(res.data.hotels);
         } else {
           console.error(
