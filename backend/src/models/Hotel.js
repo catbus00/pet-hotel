@@ -12,7 +12,7 @@ const HotelSchema = new mongoose.Schema(
       maxlength: 300,
     },
     year: {
-      type: Date,
+      type: String,
       required: [true, "Please provide the year your company was founded"],
       maxlength: 4,
     },

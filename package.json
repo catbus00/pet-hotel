@@ -18,6 +18,7 @@
     "prettier": "3.2.4"
   },
   "dependencies": {
+    "@mui/x-date-pickers": "^6.19.4",
     "axios": "^1.6.7"
   }
 }

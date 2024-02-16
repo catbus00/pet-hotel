@@ -13,13 +13,9 @@ function ProtectedRoute({ user, token, setUser, setToken, navigate }) {
 
   return (
     <>
-      <AppBar
-        setUser={setUser}
-        setToken={setToken}
-        navigate={navigate}
-      />
+      <AppBar setUser={setUser} setToken={setToken} navigate={navigate} />
       <Outlet />
-      <Navigation user={user} />
+      <Navigation user={user} token={token} />
     </>
   );
 }

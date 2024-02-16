@@ -28,8 +28,6 @@ function HotelsViewOwned({ token, user }) {
 
     axios(configuration)
       .then((res) => {
-        console.log("Response data:", res.data);
-
         if (Array.isArray(res.data.hotels) && res.data.hotels.length > 0) {
           setHotels(res.data.hotels);
         } else {

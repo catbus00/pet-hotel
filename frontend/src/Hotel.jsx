@@ -1,43 +1,58 @@
 import { Button } from "@mui/material";
 import dayjs from "dayjs";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import VerticalBox from "./components/VerticalBox";
 import { useForm } from "react-hook-form";
 import InputTextField from "./components/InputTextField";
 import PropTypes from "prop-types";
 import { Hotel } from "./types/Hotel";
 import { API } from "./env";
+import axios from "axios";
+import InputDatePicker from "./components/InputDatePicker";
 
 // Add Hotel Function
 function AddHotel({ hotel, token }) {
+  const exists = hotel?._id ?? false;
   const {
     handleSubmit,
     formState: { errors },
     control,
+    getValues,
   } = useForm({
     defaultValues: {
-      name: hotel ? hotel.name : "",
-      description: hotel ? hotel.description : "",
-      year: hotel ? hotel.year : "",
+      name: exists ? hotel.name : "",
+      description: exists ? hotel.description : "",
+      year: exists ? dayjs(hotel.year) : null,
     },
   });
-  const today = dayjs();
-  const onSubmit = () => {
-    console.log(`on submit hotel`);
-    if (!hotel) {
-      // TODO: this is an Add Hotel
-    } else {
-      // const configuration = {
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      //   method: "patch",
-      //   url: `${API}/hotels/${selectedHotel._id}`,
-      // };
+  console.log(`Token: ${token}`);
+
+  const onSubmit = async (hotel, token) => {
+    const formData = {
+      name: getValues("name"),
+      description: getValues("description"),
+      year: getValues("year")
+        ? getValues("year").toISOString().slice(0, 4)
+        : null,
+    };
+    console.log(`Form Data: ${JSON.stringify(formData)}`);
+    const configuration = {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      method: exists ? "patch" : "post",
+      url: exists ? `${API}/hotels/${hotel._id}` : `${API}/hotels`,
+      data: formData,
+    };
+    console.log(`data after config: ${JSON.stringify(formData, null, 2)}`);
+    console.log(`Configuration: ${JSON.stringify(configuration, null, 2)}`);
+
+    try {
+      const response = await axios(configuration);
+      console.log("API Response:", response.data);
+    } catch (error) {
+      console.error("API Error:", error);
     }
   };
 
@@ -73,20 +88,11 @@ function AddHotel({ hotel, token }) {
             label="Company Description"
             placeholder="Company Description"
           />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label={"Year Founded"}
-              views={["year"]}
-              name="year"
-              sx={{ marginBottom: "16.5px" }}
-              maxDate={today}
-              value={today}
-            />
-          </LocalizationProvider>
+          <InputDatePicker control={control} />
           <Button
             variant="contained"
             type="submit"
-            onClick={() => handleSubmit}
+            onClick={() => handleSubmit(onSubmit)}
           >
             Submit
           </Button>

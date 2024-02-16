@@ -70,7 +70,7 @@ function Navigation({ user, token }) {
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                {showAddHotel && <AddHotel user={user} />}
+                {showAddHotel && <AddHotel token={token} hotel={undefined} />}
                 {showAddPet && <AddPet user={user} />}
               </DialogContent>
             </Slide>
