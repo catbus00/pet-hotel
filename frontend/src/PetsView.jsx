@@ -32,7 +32,8 @@ PetsView.propTypes = {
   ...Pets,
 };
 
-function PetsView({ token, pets, setPets }) {
+function PetsView({ token, pets, setPets, onSuccess }) {
+  const exists = pets?._id ?? false;
   const [selectedPet, setSelectedPet] = useState(null);
   const [open, setOpen] = React.useState(false);
 
@@ -115,7 +116,9 @@ function PetsView({ token, pets, setPets }) {
   };
 
   const handleEditClick = (pet) => {
+    console.log(pet);
     setSelectedPet(pet);
+    setOpen(true);
   };
 
   const handleAddSuccess = () => {
@@ -125,10 +128,6 @@ function PetsView({ token, pets, setPets }) {
   useEffect(() => {
     getPetsAndHotels();
   }, [token]);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -171,7 +170,7 @@ function PetsView({ token, pets, setPets }) {
             <Button
               size="small"
               pets={pets}
-              onClick={() => handleClick()}
+              onClick={() => handleEditClick(pet._id)}
               token={token}
             >
               Edit
@@ -191,7 +190,14 @@ function PetsView({ token, pets, setPets }) {
                       </IconButton>
                     </Toolbar>
                   </AppBar>
-                  <AddPet pets={pets} token={token} setPets={setPets} />
+                  <AddPet
+                    pets={pets}
+                    token={token}
+                    onSuccess={() => {
+                      handleClose();
+                      onSuccess();
+                    }}
+                  />
                 </DialogContent>
               </Slide>
             </Dialog>

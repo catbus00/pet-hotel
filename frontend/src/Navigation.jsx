@@ -82,7 +82,16 @@ function Navigation({ user, token, hotels, setHotels, pets, setPets }) {
                     }}
                   />
                 )}
-                {showAddPet && <AddPet token={token} pet={undefined} />}
+                {showAddPet && (
+                  <AddPet
+                    token={token}
+                    pet={undefined}
+                    onSuccess={(pet) => {
+                      handleClose();
+                      setHotels([...pets, pet]);
+                    }}
+                  />
+                )}
               </DialogContent>
             </Slide>
           </Dialog>

@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 import { Pets } from "./types/Pet";
 
 // Add Pet Function
-function AddPet({ pet, token, setPets }) {
+function AddPet({ pet, token, setPets, onSuccess }) {
   const exists = pet?._id ?? false;
   const [hotels, setHotels] = useState([]);
 
@@ -37,7 +37,7 @@ function AddPet({ pet, token, setPets }) {
   });
 
   const onSubmit = async () => {
-    const petHotelValue = getValues("petHotel");
+    const petHotelValue = getValues("hotel");
 
     const formData = {
       likes: getValues("likes").map((item) => item.name),
@@ -61,13 +61,12 @@ function AddPet({ pet, token, setPets }) {
       url: exists ? `${API}/pets/${exists}` : `${API}/pets`,
       data: formData,
     };
-    console.log("configuration:", configuration);
-
     try {
       const response = await axios(configuration);
-      console.log("API Response:", response.data);
+      onSuccess(response.data.pet);
+      reset();
     } catch (error) {
-      console.error("Error:", error);
+      console.error("API Error:", error);
     }
   };
 
@@ -95,6 +94,10 @@ function AddPet({ pet, token, setPets }) {
     };
     getHotels();
   }, []);
+
+  const handleAddSuccess = () => {
+    getPetsAndHotels();
+  };
 
   const {
     fields: likesField,
@@ -269,6 +272,7 @@ AddPet.propTypes = {
   pet: PropTypes.shape(Pets),
   petId: PropTypes.string,
   ...Pets,
+  onSuccess: PropTypes.func.isRequired,
 };
 
 export default AddPet;
