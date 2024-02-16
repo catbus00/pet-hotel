@@ -117,7 +117,6 @@ function PetsView({ token, pets, setPets, onSuccess }) {
   };
 
   const handleEditClick = (pet) => {
-    console.log(pet);
     setSelectedPet(pet);
     setOpen(true);
   };
@@ -171,7 +170,10 @@ function PetsView({ token, pets, setPets, onSuccess }) {
             <Button
               size="small"
               pets={pets}
-              onClick={() => handleEditClick(pet._id)}
+              onClick={() => {
+                setOpen(true);
+                handleEditClick(pet);
+              }}
               token={token}
             >
               Edit

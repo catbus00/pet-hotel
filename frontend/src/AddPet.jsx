@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 import { Pets } from "./types/Pet";
 
 // Add Pet Function
-function AddPet({ pet, token, setPets, onSuccess }) {
+function AddPet({ pet, token, onSuccess }) {
   const exists = pet?._id ?? false;
   const [hotels, setHotels] = useState([]);
 
@@ -25,31 +25,29 @@ function AddPet({ pet, token, setPets, onSuccess }) {
     reset,
   } = useForm({
     defaultValues: {
-      likes: exists ? pet.likes : [],
-      dislikes: exists ? pet.dislikes : [],
       name: exists ? pet.name : "",
       gender: exists ? pet.gender : "",
       color: exists ? pet.color : "",
       age: exists ? pet.age : "",
+      likes: exists ? pet.likes : [],
+      dislikes: exists ? pet.dislikes : [],
       species: exists ? pet.species : "",
-      hotel: exists ? pet.petHotel : "",
+      hotel: exists ? pet.hotel : "",
     },
   });
 
   const onSubmit = async () => {
-    const petHotelValue = getValues("hotel");
-
     const formData = {
-      likes: getValues("likes").map((item) => item.name),
-      dislikes: getValues("dislikes").map((item) => item.name),
       name: getValues("name"),
       gender: getValues("gender"),
       color: getValues("color"),
       age: getValues("age"),
+      likes: getValues("likes").map((item) => item.name),
+      dislikes: getValues("dislikes").map((item) => item.name),
       species: getValues("species"),
-      hotel: petHotelValue ? petHotelValue.id : null,
+      hotel: getValues("hotel.id"),
     };
-    console.log("formData:", formData);
+    console.log("formData", formData);
 
     const configuration = {
       headers: {
@@ -61,6 +59,7 @@ function AddPet({ pet, token, setPets, onSuccess }) {
       url: exists ? `${API}/pets/${exists}` : `${API}/pets`,
       data: formData,
     };
+    console.log(configuration);
     try {
       const response = await axios(configuration);
       onSuccess(response.data.pet);
@@ -245,7 +244,7 @@ function AddPet({ pet, token, setPets, onSuccess }) {
           />
           <Combobox
             control={control}
-            name="petHotel"
+            name="hotel"
             hotels={hotels}
             rules={{
               required: "The hotel where your pet is staying is required.",
