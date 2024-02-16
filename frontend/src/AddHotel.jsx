@@ -22,7 +22,7 @@ function AddHotel({ hotel, token, onSuccess }) {
     defaultValues: {
       name: exists ? hotel.name : "",
       description: exists ? hotel.description : "",
-      year: exists ? dayjs(hotel.year) : null,
+      year: exists ? dayjs(hotel.year) : dayjs(),
     },
   });
 
