@@ -29,10 +29,16 @@ function HotelsViewOwned({ token, user }) {
     axios(configuration)
       .then((res) => {
         if (Array.isArray(res.data.hotels) && res.data.hotels.length > 0) {
+          console.log(
+            `in hotels view owned on success refresh with array:\n${JSON.stringify(res.data.hotels, null, 2)}`,
+          );
           setHotels(res.data.hotels);
+        } else if (res.data.hotel) {
+          console.log("in hotels view owned on success refresh with object");
+          setHotels([...hotels, res.data.hotel]);
         } else {
           console.error(
-            "Invalid response format: res.data.hotels is not an array.",
+            `Invalid response format: res.data.hotels is not an array.\n${JSON.stringify(res.data, null, 2)}`,
           );
           // TODO send error to child component: Combobox
         }
@@ -87,6 +93,10 @@ function HotelsViewOwned({ token, user }) {
     setSelectedHotel(hotel);
   };
 
+  const handleAddSuccess = () => {
+    getHotels();
+  };
+
   useEffect(() => {
     getHotels();
   }, []);
@@ -100,6 +110,7 @@ function HotelsViewOwned({ token, user }) {
           handleEditClick={handleEditClick}
           handleDeleteClick={handleDeleteClick}
           token={token}
+          onSuccess={handleAddSuccess}
         />
       ))}
     </>

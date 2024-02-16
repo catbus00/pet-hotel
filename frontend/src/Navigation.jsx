@@ -70,7 +70,16 @@ function Navigation({ user, token }) {
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                {showAddHotel && <AddHotel token={token} hotel={undefined} />}
+                {showAddHotel && (
+                  <AddHotel
+                    token={token}
+                    hotel={undefined}
+                    onSuccess={() => {
+                      handleClose();
+                      console.log("on successful add hotel");
+                    }}
+                  />
+                )}
                 {showAddPet && <AddPet user={user} />}
               </DialogContent>
             </Slide>

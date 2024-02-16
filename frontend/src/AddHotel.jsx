@@ -10,13 +10,14 @@ import axios from "axios";
 import InputDatePicker from "./components/InputDatePicker";
 
 // Add Hotel Function
-function AddHotel({ hotel, token }) {
+function AddHotel({ hotel, token, onSuccess }) {
   const exists = hotel?._id ?? false;
   const {
     handleSubmit,
     formState: { errors },
     control,
     getValues,
+    reset,
   } = useForm({
     defaultValues: {
       name: exists ? hotel.name : "",
@@ -25,7 +26,7 @@ function AddHotel({ hotel, token }) {
     },
   });
 
-  const onSubmit = async (hotel) => {
+  const onSubmit = async () => {
     const formData = {
       name: getValues("name"),
       description: getValues("description"),
@@ -46,6 +47,8 @@ function AddHotel({ hotel, token }) {
     try {
       const response = await axios(configuration);
       console.log("API Response:", response.data);
+      onSuccess();
+      reset();
     } catch (error) {
       console.error("API Error:", error);
     }
@@ -101,6 +104,7 @@ AddHotel.propTypes = {
   token: PropTypes.string.isRequired,
   hotel: PropTypes.shape(Hotel),
   hotelId: PropTypes.string,
+  onSuccess: PropTypes.func.isRequired,
 };
 
 export default AddHotel;

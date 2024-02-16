@@ -21,7 +21,13 @@ import AddHotel from "./AddHotel";
 import PropTypes from "prop-types";
 import { Hotel } from "./types/Hotel";
 
-function HotelDialogForm({ hotel, handleEditClick, handleDeleteClick, token }) {
+function HotelDialogForm({
+  hotel,
+  handleEditClick,
+  handleDeleteClick,
+  token,
+  onSuccess,
+}) {
   const [open, setOpen] = React.useState(false);
   const handleClose = () => {
     setOpen(false);
@@ -78,7 +84,14 @@ function HotelDialogForm({ hotel, handleEditClick, handleDeleteClick, token }) {
                   </IconButton>
                 </Toolbar>
               </AppBar>
-              <AddHotel hotel={hotel} token={token} />
+              <AddHotel
+                hotel={hotel}
+                token={token}
+                onSuccess={() => {
+                  handleClose();
+                  onSuccess();
+                }}
+              />
             </DialogContent>
           </Slide>
         </Dialog>
@@ -95,6 +108,7 @@ HotelDialogForm.propTypes = {
   token: PropTypes.string.isRequired,
   handleEditClick: PropTypes.func.isRequired,
   handleDeleteClick: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func.isRequired,
 };
 
 export default HotelDialogForm;
