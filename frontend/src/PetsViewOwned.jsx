@@ -33,8 +33,6 @@ function PetsViewOwned({ token, setPets, pets }) {
 
     axios(configuration)
       .then((res) => {
-        console.log("Response data:", res.data);
-
         if (Array.isArray(res.data.pets) && res.data.pets.length > 0) {
           setPets(res.data.pets);
         } else {

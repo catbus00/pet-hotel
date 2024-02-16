@@ -46,7 +46,6 @@ function AddHotel({ hotel, token, onSuccess }) {
     };
     try {
       const response = await axios(configuration);
-      console.log("API Response:", response.data);
       onSuccess(response.data.hotel);
       reset();
     } catch (error) {

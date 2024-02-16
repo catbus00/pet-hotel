@@ -47,7 +47,6 @@ function AddPet({ pet, token, onSuccess }) {
       species: getValues("species"),
       hotel: getValues("hotel.id"),
     };
-    console.log("formData", formData);
 
     const configuration = {
       headers: {
