@@ -171,7 +171,7 @@ function PetsView({ token, pets, setPets }) {
             <Button
               size="small"
               pets={pets}
-              onClick={handleEditClick}
+              onClick={() => handleClick()}
               token={token}
             >
               Edit
