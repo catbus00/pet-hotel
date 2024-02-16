@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import ProtectedRoute from "./ProtectedRoute";
-import Admin from "./Admin";
 import HotelsView from "./HotelsView";
 import HotelsViewOwned from "./HotelsViewOwned";
 import Dashboard from "./Dashboard";
@@ -31,6 +30,7 @@ function Root() {
   const [user, setUser] = useState(retrieveStoredUser());
   const [token, setToken] = useState(retrieveStoredToken());
   const [hotels, setHotels] = useState([]);
+  const [pets, setPets] = useState([]);
   const navigate = useNavigate();
   return (
     <Routes>
@@ -58,12 +58,26 @@ function Root() {
             setUser={setUser}
             navigate={navigate}
             setHotels={setHotels}
+            setPets={setPets}
             hotels={hotels}
           />
         }
       >
-        <Route path="pets/owned" element={<PetsViewOwned token={token} />} />
-        <Route path="pets/" element={<PetsView token={token} />} />
+        <Route
+          path="pets/owned"
+          element={
+            <PetsViewOwned
+              setPets={setPets}
+              pets={pets}
+              token={token}
+              user={user}
+            />
+          }
+        />
+        <Route
+          path="pets/"
+          element={<PetsView token={token} setPets={setPets} pets={pets} />}
+        />
         <Route
           path="hotels"
           element={
@@ -83,7 +97,6 @@ function Root() {
         />
         <Route path="profile" element={<Profile />} />
         <Route path="dashboard" element={<Dashboard user={user} />} />
-        <Route path="admin" element={<Admin user={user} />} />
       </Route>
       {/* fallback route */}
       <Route path="*" element={<p>There&apos;s nothing here: 404!</p>} />

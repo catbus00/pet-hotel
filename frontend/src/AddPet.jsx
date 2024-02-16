@@ -7,11 +7,13 @@ import InputTextField from "./components/InputTextField";
 import HorizontalBox from "./components/HorizontalBox";
 import Combobox from "./Combobox";
 import axios from "axios";
-import { Authenticated } from "./types/Authentication";
 import { API } from "./env";
+import PropTypes from "prop-types";
+import { Pets } from "./types/Pet";
 
 // Add Pet Function
-function AddPet({ user }) {
+function AddPet({ pet, token, setPets }) {
+  const exists = pet?._id ?? false;
   const [hotels, setHotels] = useState([]);
 
   const {
@@ -19,18 +21,55 @@ function AddPet({ user }) {
     handleSubmit,
     formState: { errors },
     control,
+    getValues,
+    reset,
   } = useForm({
     defaultValues: {
-      likes: [{ name: "" }],
-      dislikes: [{ name: "" }],
-      name: "",
-      gender: "",
-      color: "",
-      age: "",
-      species: "",
-      petHotel: {},
+      likes: exists ? pet.likes : [],
+      dislikes: exists ? pet.dislikes : [],
+      name: exists ? pet.name : "",
+      gender: exists ? pet.gender : "",
+      color: exists ? pet.color : "",
+      age: exists ? pet.age : "",
+      species: exists ? pet.species : "",
+      hotel: exists ? pet.petHotel : "",
     },
   });
+
+  const onSubmit = async () => {
+    const petHotelValue = getValues("petHotel");
+
+    const formData = {
+      likes: getValues("likes").map((item) => item.name),
+      dislikes: getValues("dislikes").map((item) => item.name),
+      name: getValues("name"),
+      gender: getValues("gender"),
+      color: getValues("color"),
+      age: getValues("age"),
+      species: getValues("species"),
+      hotel: petHotelValue ? petHotelValue.id : null,
+    };
+    console.log("formData:", formData);
+
+    const configuration = {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      method: exists ? "patch" : "post",
+      url: exists ? `${API}/pets/${exists}` : `${API}/pets`,
+      data: formData,
+    };
+    console.log("configuration:", configuration);
+
+    try {
+      const response = await axios(configuration);
+      console.log("API Response:", response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   useEffect(() => {
     const getHotels = () => {
@@ -68,10 +107,6 @@ function AddPet({ user }) {
     append: dislikesAppend,
     remove: dislikesRemove,
   } = useFieldArray({ control, name: "dislikes" });
-
-  const onSubmit = (data) => {
-    console.log("on submit pet data", data);
-  };
 
   return (
     <>
@@ -153,6 +188,7 @@ function AddPet({ user }) {
             })}
           </VerticalBox>
           <Button
+            href="#"
             type="Button"
             onClick={() => {
               likesAppend({ name: "" });
@@ -218,7 +254,7 @@ function AddPet({ user }) {
             sx={{ marginTop: "16.5px" }}
             variant="contained"
             type="submit"
-            onClick={handleSubmit}
+            onClick={() => handleSubmit(onSubmit)}
           >
             Submit
           </Button>
@@ -229,7 +265,10 @@ function AddPet({ user }) {
 }
 
 AddPet.propTypes = {
-  ...Authenticated,
+  token: PropTypes.string.isRequired,
+  pet: PropTypes.shape(Pets),
+  petId: PropTypes.string,
+  ...Pets,
 };
 
 export default AddPet;

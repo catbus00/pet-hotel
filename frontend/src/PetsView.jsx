@@ -11,16 +11,30 @@ import {
   Box,
   List,
   ListItemText,
+  Dialog,
+  Slide,
+  AppBar,
+  Toolbar,
+  IconButton,
+  DialogContent,
 } from "@mui/material";
 import Tags from "./components/Tags";
 import { API } from "./env";
+import AddPet from "./AddPet";
+import CloseIcon from "@mui/icons-material/Close";
+import { Authenticated } from "./types/Authentication";
+import { Pets } from "./types/Pet";
 
 PetsView.propTypes = {
   token: PropTypes.string,
+  petId: PropTypes.string,
+  ...Authenticated,
+  ...Pets,
 };
 
-function PetsView({ token }) {
-  const [pets, setPets] = useState([]); // Add this line
+function PetsView({ token, pets, setPets }) {
+  const [selectedPet, setSelectedPet] = useState(null);
+  const [open, setOpen] = React.useState(false);
 
   const getPetsAndHotels = async () => {
     try {
@@ -63,7 +77,7 @@ function PetsView({ token }) {
     }
   };
 
-  const deletePet = async (petId) => {
+  const deletePet = async (petId, setPets) => {
     try {
       const configuration = {
         headers: {
@@ -100,9 +114,25 @@ function PetsView({ token }) {
     }
   };
 
+  const handleEditClick = (pet) => {
+    setSelectedPet(pet);
+  };
+
+  const handleAddSuccess = () => {
+    getPetsAndHotels();
+  };
+
   useEffect(() => {
     getPetsAndHotels();
   }, [token]);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <>
@@ -138,8 +168,39 @@ function PetsView({ token }) {
             </Box>
           </CardContent>
           <CardActions>
-            <Button size="small">Edit</Button>
-            <Button size="small" onClick={() => handleDeleteClick(pet._id)}>
+            <Button
+              size="small"
+              pets={pets}
+              onClick={handleEditClick}
+              token={token}
+            >
+              Edit
+            </Button>
+            <Dialog fullScreen open={open} onClose={handleClose} keepMounted>
+              <Slide direction="up" in={true}>
+                <DialogContent>
+                  <AppBar sx={{ position: "relative", marginBottom: "16.5px" }}>
+                    <Toolbar>
+                      <IconButton
+                        edge="start"
+                        color="inherit"
+                        onClick={handleClose}
+                        aria-label="close"
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                    </Toolbar>
+                  </AppBar>
+                  <AddPet pets={pets} token={token} setPets={setPets} />
+                </DialogContent>
+              </Slide>
+            </Dialog>
+            <Button
+              size="small"
+              pets={pets}
+              onClick={() => handleDeleteClick(pet._id)}
+              token={token}
+            >
               Delete
             </Button>
           </CardActions>

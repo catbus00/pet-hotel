@@ -6,7 +6,7 @@ import HotelIcon from "@mui/icons-material/Hotel";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
-import AddPet from "./Pet";
+import AddPet from "./AddPet";
 import AddHotel from "./AddHotel";
 import PropTypes from "prop-types";
 
@@ -25,6 +25,7 @@ import {
 import { Authenticated } from "./types/Authentication";
 import { DialogContent } from "@mui/material/";
 import { Hotels } from "./types/Hotel";
+import { Pets } from "./types/Pet";
 
 const StyledFab = styled(Fab)({
   position: "absolute",
@@ -35,7 +36,7 @@ const StyledFab = styled(Fab)({
   margin: "0 auto",
 });
 
-function Navigation({ user, token, hotels, setHotels }) {
+function Navigation({ user, token, hotels, setHotels, pets, setPets }) {
   const [value, setValue] = React.useState(0);
   const [showAddHotel, setShowAddHotel] = useState(false);
   const [showAddPet, setShowAddPet] = useState(false);
@@ -81,7 +82,7 @@ function Navigation({ user, token, hotels, setHotels }) {
                     }}
                   />
                 )}
-                {showAddPet && <AddPet user={user} />}
+                {showAddPet && <AddPet token={token} pet={undefined} />}
               </DialogContent>
             </Slide>
           </Dialog>
@@ -127,6 +128,7 @@ Navigation.propTypes = {
   ...Authenticated,
   token: PropTypes.string,
   ...Hotels,
+  ...Pets,
 };
 
 export default Navigation;

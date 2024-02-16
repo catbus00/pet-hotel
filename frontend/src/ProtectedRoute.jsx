@@ -6,6 +6,7 @@ import { Authenticator } from "./types/Authentication";
 import { Navigation as NavigationProps } from "./types/Navigation";
 import Navigation from "./Navigation";
 import { Hotels } from "./types/Hotel";
+import { Pets } from "./types/Pet";
 
 function ProtectedRoute({
   user,
@@ -15,6 +16,8 @@ function ProtectedRoute({
   navigate,
   hotels,
   setHotels,
+  pets,
+  setPets,
 }) {
   if (!user || !token) {
     return <Navigate to="/" replace />;
@@ -29,6 +32,8 @@ function ProtectedRoute({
         token={token}
         hotels={hotels}
         setHotels={setHotels}
+        pets={pets}
+        setPets={setPets}
       />
     </>
   );
@@ -40,6 +45,7 @@ ProtectedRoute.propTypes = {
   user: PropTypes.shape(User),
   token: PropTypes.string,
   ...Hotels,
+  ...Pets,
 };
 
 export default ProtectedRoute;

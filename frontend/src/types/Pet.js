@@ -8,10 +8,7 @@ export const Pet = {
   likes: PropTypes.arrayOf(PropTypes.string),
   dislikes: PropTypes.arrayOf(PropTypes.string),
   species: PropTypes.oneOf(["cat", "dog", "other"]).isRequired,
-  hotel: PropTypes.shape({
-    _bsontype: PropTypes.oneOf(["ObjectID"]).isRequired,
-    id: PropTypes.string.isRequired,
-  }).isRequired,
+  hotel: PropTypes.object.isRequired,
   photo: PropTypes.string,
 };
 

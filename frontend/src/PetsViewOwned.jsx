@@ -12,14 +12,14 @@ import {
   ListItemText,
 } from "@mui/material";
 import { API } from "./env";
+import { Pets } from "./types/Pet";
 
 PetsViewOwned.propTypes = {
   token: PropTypes.string,
+  ...Pets,
 };
 
-function PetsViewOwned({ token }) {
-  const [pets, setPets] = useState([]);
-
+function PetsViewOwned({ token, setPets, pets }) {
   const getPets = () => {
     const configuration = {
       headers: {
