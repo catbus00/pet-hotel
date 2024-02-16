@@ -1,6 +1,5 @@
-import Tags from "./components/Tags";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
   Card,
@@ -13,6 +12,7 @@ import {
   List,
   ListItemText,
 } from "@mui/material";
+import Tags from "./components/Tags";
 import { API } from "./env";
 
 PetsView.propTypes = {
@@ -20,33 +20,47 @@ PetsView.propTypes = {
 };
 
 function PetsView({ token }) {
-  const [pets, setPets] = useState([]);
+  const [pets, setPets] = useState([]); // Add this line
 
-  const getPets = () => {
-    const configuration = {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      method: "get",
-      url: `${API}/pets`,
-    };
+  const getPetsAndHotels = async () => {
+    try {
+      const [petsResponse, hotelsResponse] = await Promise.all([
+        axios.get(`${API}/pets`, {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        axios.get(`${API}/hotels`, {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+      ]);
 
-    axios(configuration)
-      .then((res) => {
-        console.log("Response data:", res.data);
-
-        if (Array.isArray(res.data.pets) && res.data.pets.length > 0) {
-          setPets(res.data.pets);
-        } else {
-          console.error("No pets found.");
-          // TODO send error to child component: Combobox
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+      if (
+        Array.isArray(petsResponse.data.pets) &&
+        petsResponse.data.pets.length > 0 &&
+        Array.isArray(hotelsResponse.data.hotels)
+      ) {
+        const transformedPets = petsResponse.data.pets.map((pet) => {
+          const hotel = hotelsResponse.data.hotels.find(
+            (h) => h._id === pet.hotel,
+          );
+          const hotelName = hotel ? hotel.name : "No Hotel Assigned";
+          return { ...pet, hotelName };
+        });
+        setPets(transformedPets);
+      } else {
+        console.error("Invalid API response format.");
+        // TODO handle the error or send it to the child component
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   const deletePet = async (petId) => {
@@ -62,7 +76,7 @@ function PetsView({ token }) {
       };
 
       const res = await axios(configuration);
-      getPets();
+      getPetsAndHotels();
       if (Array.isArray(res.data.pets) && res.data.pets.length > 0) {
         setPets(res.data.pets);
       } else {
@@ -87,8 +101,8 @@ function PetsView({ token }) {
   };
 
   useEffect(() => {
-    getPets();
-  }, []);
+    getPetsAndHotels();
+  }, [token]);
 
   return (
     <>
@@ -107,8 +121,10 @@ function PetsView({ token }) {
             </Typography>
             <List>
               <ListItemText>Gender: {pet.gender}</ListItemText>
-              <ListItemText>Species: {pet.species}</ListItemText>
               <ListItemText>Color: {pet.color}</ListItemText>
+              <ListItemText>Age: {pet.age}</ListItemText>
+              <ListItemText>Species: {pet.species}</ListItemText>
+              <ListItemText>Hotel: {pet.hotelName}</ListItemText>
             </List>
             <Box
               style={{
