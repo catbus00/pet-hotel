@@ -17,7 +17,7 @@ import {
   AppBar,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import AddHotel from "./Hotel";
+import AddHotel from "./AddHotel";
 import PropTypes from "prop-types";
 import { Hotel } from "./types/Hotel";
 
