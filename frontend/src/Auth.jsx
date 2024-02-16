@@ -84,8 +84,6 @@ function Auth({ setUser, setToken, navigate }) {
       configuration.data.role = role;
     }
 
-    console.log(configuration);
-
     axios(configuration)
       .then((result) => {
         if (result.status === HttpStatusCode.Ok) {

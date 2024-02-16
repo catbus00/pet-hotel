@@ -24,9 +24,8 @@ function AddHotel({ hotel, token }) {
       year: exists ? dayjs(hotel.year) : null,
     },
   });
-  console.log(`Token: ${token}`);
-
-  const onSubmit = async (hotel, token) => {
+  
+  const onSubmit = async (hotel) => {
     const formData = {
       name: getValues("name"),
       description: getValues("description"),
@@ -34,7 +33,6 @@ function AddHotel({ hotel, token }) {
         ? getValues("year").toISOString().slice(0, 4)
         : null,
     };
-    console.log(`Form Data: ${JSON.stringify(formData)}`);
     const configuration = {
       headers: {
         Accept: "application/json",
@@ -45,9 +43,7 @@ function AddHotel({ hotel, token }) {
       url: exists ? `${API}/hotels/${hotel._id}` : `${API}/hotels`,
       data: formData,
     };
-    console.log(`data after config: ${JSON.stringify(formData, null, 2)}`);
-    console.log(`Configuration: ${JSON.stringify(configuration, null, 2)}`);
-
+ 
     try {
       const response = await axios(configuration);
       console.log("API Response:", response.data);
@@ -103,7 +99,7 @@ function AddHotel({ hotel, token }) {
 }
 
 AddHotel.propTypes = {
-  token: PropTypes.string,
+  token: PropTypes.string.isRequired,
   hotel: PropTypes.shape(Hotel),
 };
 
