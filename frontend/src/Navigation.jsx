@@ -88,7 +88,7 @@ function Navigation({ user, token, hotels, setHotels, pets, setPets }) {
                     pet={undefined}
                     onSuccess={(pet) => {
                       handleClose();
-                      setHotels([...pets, pet]);
+                      setPets((prevPets) => [...prevPets, pet]);
                     }}
                   />
                 )}
