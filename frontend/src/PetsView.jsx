@@ -95,17 +95,12 @@ function PetsView({ token, pets, setPets, onSuccess }) {
       getPetsAndHotels();
       if (Array.isArray(res.data.pets) && res.data.pets.length > 0) {
         setPets(res.data.pets);
-      } else {
-        console.error(
-          "Invalid response format: res.data.pets is not an array.",
-        );
-        // TODO send error to child component: Combobox
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
         console.error("Unauthorized access.", error);
       } else {
-        console.error("Error fetching data:", error);
+        console.error("Error deleting pet:", error);
       }
     }
   };
