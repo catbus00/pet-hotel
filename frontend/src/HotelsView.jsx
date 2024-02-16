@@ -12,15 +12,15 @@ import {
 } from "@mui/material";
 import { Authenticated } from "./types/Authentication";
 import { API } from "./env";
+import { Hotels } from "./types/Hotel";
 
 HotelsView.propTypes = {
   token: PropTypes.string,
   ...Authenticated,
+  ...Hotels,
 };
 
-function HotelsView({ token }) {
-  const [hotels, setHotels] = useState([]);
-
+function HotelsView({ token, hotels, setHotels }) {
   const getHotels = () => {
     const configuration = {
       headers: {

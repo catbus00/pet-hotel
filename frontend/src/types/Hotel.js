@@ -5,3 +5,8 @@ export const Hotel = {
   description: PropTypes.string.isRequired,
   year: PropTypes.string,
 };
+
+export const Hotels = {
+  hotels: PropTypes.arrayOf(PropTypes.shape(Hotel)),
+  setHotels: PropTypes.func,
+};

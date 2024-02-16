@@ -24,6 +24,7 @@ import {
 } from "@mui/material";
 import { Authenticated } from "./types/Authentication";
 import { DialogContent } from "@mui/material/";
+import { Hotels } from "./types/Hotel";
 
 const StyledFab = styled(Fab)({
   position: "absolute",
@@ -34,7 +35,7 @@ const StyledFab = styled(Fab)({
   margin: "0 auto",
 });
 
-function Navigation({ user, token }) {
+function Navigation({ user, token, hotels, setHotels }) {
   const [value, setValue] = React.useState(0);
   const [showAddHotel, setShowAddHotel] = useState(false);
   const [showAddPet, setShowAddPet] = useState(false);
@@ -74,9 +75,9 @@ function Navigation({ user, token }) {
                   <AddHotel
                     token={token}
                     hotel={undefined}
-                    onSuccess={() => {
+                    onSuccess={(hotel) => {
                       handleClose();
-                      console.log("on successful add hotel");
+                      setHotels([...hotels, hotel]);
                     }}
                   />
                 )}
@@ -125,6 +126,7 @@ function Navigation({ user, token }) {
 Navigation.propTypes = {
   ...Authenticated,
   token: PropTypes.string,
+  ...Hotels,
 };
 
 export default Navigation;

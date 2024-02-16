@@ -4,15 +4,16 @@ import PropTypes from "prop-types";
 import { Authenticated } from "./types/Authentication";
 import { API } from "./env";
 import HotelDialogForm from "./HotelDialogForm";
+import { Hotels } from "./types/Hotel";
 
 HotelsViewOwned.propTypes = {
   token: PropTypes.string,
   hotelId: PropTypes.string,
   ...Authenticated,
+  ...Hotels,
 };
 
-function HotelsViewOwned({ token, user }) {
-  const [hotels, setHotels] = useState([]);
+function HotelsViewOwned({ token, user, hotels, setHotels }) {
   const [selectedHotel, setSelectedHotel] = useState(null);
 
   const getHotels = () => {
@@ -33,9 +34,6 @@ function HotelsViewOwned({ token, user }) {
             `in hotels view owned on success refresh with array:\n${JSON.stringify(res.data.hotels, null, 2)}`,
           );
           setHotels(res.data.hotels);
-        } else if (res.data.hotel) {
-          console.log("in hotels view owned on success refresh with object");
-          setHotels([...hotels, res.data.hotel]);
         } else {
           console.error(
             `Invalid response format: res.data.hotels is not an array.\n${JSON.stringify(res.data, null, 2)}`,

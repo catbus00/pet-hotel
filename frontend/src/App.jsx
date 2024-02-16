@@ -30,6 +30,7 @@ const retrieveStoredToken = () => sessionStorage.getItem("authToken");
 function Root() {
   const [user, setUser] = useState(retrieveStoredUser());
   const [token, setToken] = useState(retrieveStoredToken());
+  const [hotels, setHotels] = useState([]);
   const navigate = useNavigate();
   return (
     <Routes>
@@ -56,15 +57,29 @@ function Root() {
             setToken={setToken}
             setUser={setUser}
             navigate={navigate}
+            setHotels={setHotels}
+            hotels={hotels}
           />
         }
       >
         <Route path="pets/owned" element={<PetsViewOwned token={token} />} />
         <Route path="pets/" element={<PetsView token={token} />} />
-        <Route path="hotels" element={<HotelsView user={user} />} />
+        <Route
+          path="hotels"
+          element={
+            <HotelsView setHotels={setHotels} hotels={hotels} user={user} />
+          }
+        />
         <Route
           path="hotels/owned"
-          element={<HotelsViewOwned token={token} user={user} />}
+          element={
+            <HotelsViewOwned
+              setHotels={setHotels}
+              hotels={hotels}
+              token={token}
+              user={user}
+            />
+          }
         />
         <Route path="profile" element={<Profile />} />
         <Route path="dashboard" element={<Dashboard user={user} />} />
