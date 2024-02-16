@@ -164,12 +164,10 @@ function PetsView({ token, pets, setPets, onSuccess }) {
           <CardActions>
             <Button
               size="small"
-              pets={pets}
               onClick={() => {
                 setOpen(true);
                 handleEditClick(pet);
               }}
-              token={token}
             >
               Edit
             </Button>
@@ -189,7 +187,7 @@ function PetsView({ token, pets, setPets, onSuccess }) {
                     </Toolbar>
                   </AppBar>
                   <AddPet
-                    pets={pets}
+                    pet={pet}
                     token={token}
                     onSuccess={() => {
                       handleClose();
@@ -201,9 +199,7 @@ function PetsView({ token, pets, setPets, onSuccess }) {
             </Dialog>
             <Button
               size="small"
-              pets={pets}
               onClick={() => handleDeleteClick(pet._id)}
-              token={token}
             >
               Delete
             </Button>
