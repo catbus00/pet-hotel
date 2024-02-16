@@ -8,7 +8,7 @@ export const Pet = {
   likes: PropTypes.arrayOf(PropTypes.string),
   dislikes: PropTypes.arrayOf(PropTypes.string),
   species: PropTypes.oneOf(["cat", "dog", "other"]).isRequired,
-  hotel: PropTypes.object.isRequired,
+  hotel: PropTypes.string.isRequired,
   photo: PropTypes.string,
 };
 
