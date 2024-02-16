@@ -95,10 +95,6 @@ function AddPet({ pet, token, setPets, onSuccess }) {
     getHotels();
   }, []);
 
-  const handleAddSuccess = () => {
-    getPetsAndHotels();
-  };
-
   const {
     fields: likesField,
     append: likesAppend,
@@ -179,6 +175,7 @@ function AddPet({ pet, token, setPets, onSuccess }) {
                     />
                   </label>
                   <Button
+                    href="#"
                     type="Button"
                     onClick={() => {
                       likesRemove(index);
@@ -213,6 +210,7 @@ function AddPet({ pet, token, setPets, onSuccess }) {
                     />
                   </label>
                   <Button
+                    href="#"
                     type="Button"
                     onClick={() => {
                       dislikesRemove(index);
@@ -225,6 +223,7 @@ function AddPet({ pet, token, setPets, onSuccess }) {
             })}
           </VerticalBox>
           <Button
+            href="#"
             type="Button"
             onClick={() => {
               dislikesAppend({ name: "" });
@@ -251,7 +250,7 @@ function AddPet({ pet, token, setPets, onSuccess }) {
             rules={{
               required: "The hotel where your pet is staying is required.",
             }}
-            error={errors.petHotel}
+            error={errors.hotel}
           />
           <Button
             sx={{ marginTop: "16.5px" }}

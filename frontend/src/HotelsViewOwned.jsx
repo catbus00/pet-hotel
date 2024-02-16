@@ -13,7 +13,7 @@ HotelsViewOwned.propTypes = {
   ...Hotels,
 };
 
-function HotelsViewOwned({ token, user, hotels, setHotels }) {
+function HotelsViewOwned({ token, hotels, setHotels }) {
   const [selectedHotel, setSelectedHotel] = useState(null);
 
   const getHotels = () => {

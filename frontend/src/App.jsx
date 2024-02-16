@@ -70,7 +70,6 @@ function Root() {
               setPets={setPets}
               pets={pets}
               token={token}
-              user={user}
             />
           }
         />

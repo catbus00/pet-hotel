@@ -27,6 +27,7 @@ import { Pets } from "./types/Pet";
 
 PetsView.propTypes = {
   token: PropTypes.string,
+  onSuccess: PropTypes.func,
   petId: PropTypes.string,
   ...Authenticated,
   ...Pets,
