@@ -13,11 +13,11 @@ import {
 } from "@mui/material";
 import { API } from "./env";
 
-PetsView.propTypes = {
+PetsViewOwned.propTypes = {
   token: PropTypes.string,
 };
 
-function PetsView({ token }) {
+function PetsViewOwned({ token }) {
   const [pets, setPets] = useState([]);
 
   const getPets = () => {
@@ -88,4 +88,4 @@ function PetsView({ token }) {
   );
 }
 
-export default PetsView;
+export default PetsViewOwned;
