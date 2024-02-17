@@ -24,6 +24,7 @@ import AddPet from "./AddPet";
 import CloseIcon from "@mui/icons-material/Close";
 import { Authenticated } from "./types/Authentication";
 import { Pets } from "./types/Pet";
+import PetDialogForm from "./PetDialogForm";
 
 PetsView.propTypes = {
   token: PropTypes.string,
@@ -35,7 +36,6 @@ PetsView.propTypes = {
 function PetsView({ token, pets, setPets }) {
   const exists = pets?._id ?? false;
   const [selectedPet, setSelectedPet] = useState(null);
-  const [open, setOpen] = React.useState(false);
 
   const getPetsAndHotels = async () => {
     try {
@@ -112,7 +112,6 @@ function PetsView({ token, pets, setPets }) {
 
   const handleEditClick = (pet) => {
     setSelectedPet(pet);
-    setOpen(true);
   };
 
   const handleAddSuccess = () => {
@@ -123,84 +122,17 @@ function PetsView({ token, pets, setPets }) {
     getPetsAndHotels();
   }, [token]);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <>
       {pets.map((pet) => (
-        <Card key={pet._id} sx={{ maxWidth: 600, marginBottom: 16 }}>
-          {pet.avatar && (
-            <CardMedia
-              sx={{ height: 140 }}
-              image={`/static/images/cards/${pet.avatar}.jpg`}
-              title={pet.name}
-            />
-          )}
-          <CardContent sx={{ marginTop: "25px", marginBottom: "25px" }}>
-            <Typography gutterBottom variant="h3" fontFamily="BeautifulBarbies">
-              {pet.name}
-            </Typography>
-            <List>
-              <ListItemText>Gender: {pet.gender}</ListItemText>
-              <ListItemText>Color: {pet.color}</ListItemText>
-              <ListItemText>Age: {pet.age}</ListItemText>
-              <ListItemText>Species: {pet.species}</ListItemText>
-              <ListItemText>Hotel: {pet.hotelName}</ListItemText>
-            </List>
-            <Box
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                flexWrap: "wrap",
-              }}
-            >
-              <Tags label="Likes" tags={pet.likes} />
-              <Tags label="Dislikes" tags={pet.dislikes} />
-            </Box>
-          </CardContent>
-          <CardActions>
-            <Button
-              size="small"
-              onClick={() => {
-                setOpen(true);
-                handleEditClick(pet);
-              }}
-            >
-              Edit
-            </Button>
-            <Dialog fullScreen open={open} onClose={handleClose} keepMounted>
-              <Slide direction="up" in={true}>
-                <DialogContent>
-                  <AppBar sx={{ position: "relative", marginBottom: "16.5px" }}>
-                    <Toolbar>
-                      <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={handleClose}
-                        aria-label="close"
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                    </Toolbar>
-                  </AppBar>
-                  <AddPet
-                    pet={pet}
-                    token={token}
-                    onSuccessfulChange={() => {
-                      handleClose();
-                      handleAddSuccess();
-                    }}
-                  />
-                </DialogContent>
-              </Slide>
-            </Dialog>
-            <Button size="small" onClick={() => handleDeleteClick(pet._id)}>
-              Delete
-            </Button>
-          </CardActions>
-        </Card>
+        <PetDialogForm
+          key={`pet-card-${pet._id}`}
+          pet={pet}
+          handleEditClick={handleEditClick}
+          handleDeleteClick={handleDeleteClick}
+          token={token}
+          onSuccess={handleAddSuccess}
+        />
       ))}
     </>
   );
