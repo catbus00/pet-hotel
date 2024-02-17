@@ -1,27 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Button,
-  Typography,
-  Box,
-  List,
-  ListItemText,
-  Dialog,
-  Slide,
-  AppBar,
-  Toolbar,
-  IconButton,
-  DialogContent,
-} from "@mui/material";
-import Tags from "./components/Tags";
 import { API } from "./env";
-import AddPet from "./AddPet";
-import CloseIcon from "@mui/icons-material/Close";
 import { Authenticated } from "./types/Authentication";
 import { Pets } from "./types/Pet";
 import PetDialogForm from "./PetDialogForm";
@@ -34,7 +14,6 @@ PetsView.propTypes = {
 };
 
 function PetsView({ token, pets, setPets }) {
-  const exists = pets?._id ?? false;
   const [selectedPet, setSelectedPet] = useState(null);
 
   const getPetsAndHotels = async () => {
