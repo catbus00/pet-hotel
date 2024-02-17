@@ -108,7 +108,7 @@ function Auth({ setUser, setToken, navigate }) {
           console.log("Unexpected error occurred");
           setResponseError("Unexpected error occurred");
         }
-        navigate("/home");
+        navigate("/");
       })
       .finally(() => setRequesting(false));
   };
