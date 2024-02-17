@@ -1,5 +1,7 @@
+import { Box } from "@mui/material";
 import ProfileHeader from "./components/ProfileHeader";
 import Tags from "./components/Tags";
+import VerticalBox from "./components/VerticalBox";
 
 const KOKO = {
   nickname: "Koko",
@@ -33,15 +35,19 @@ function Profile() {
   const { photo, nickname, name, gender, species, likes, dislikes } = KOKO;
   return (
     <>
-      <ProfileHeader
-        src={photo}
-        alt={nickname}
-        caption={name}
-        gender={gender}
-        species={species}
-      />
-      <Tags label="Likes" tags={likes} />
-      <Tags label="Dislikes" tags={dislikes} />
+      <Box sx={{ marginTop: "50px", marginBottom: "50px" }}>
+        <VerticalBox>
+          <ProfileHeader
+            src={photo}
+            alt={nickname}
+            caption={name}
+            gender={gender}
+            species={species}
+          />
+          <Tags label="Likes" tags={likes} />
+          <Tags label="Dislikes" tags={dislikes} />
+        </VerticalBox>
+      </Box>
     </>
   );
 }

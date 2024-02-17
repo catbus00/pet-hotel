@@ -1,6 +1,6 @@
 import Tags from "./components/Tags";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   Card,
@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { API } from "./env";
 import { Pets } from "./types/Pet";
+import VerticalBox from "./components/VerticalBox";
 
 PetsViewOwned.propTypes = {
   token: PropTypes.string,
@@ -51,37 +52,49 @@ function PetsViewOwned({ token, setPets, pets }) {
 
   return (
     <>
-      {pets.map((pet) => (
-        <Card key={pet._id} sx={{ maxWidth: 600, marginBottom: 16 }}>
-          {pet.avatar && (
-            <CardMedia
-              sx={{ height: 140 }}
-              image={`/static/images/cards/${pet.avatar}.jpg`}
-              title={pet.name}
-            />
-          )}
-          <CardContent sx={{ marginTop: "25px", marginBottom: "25px" }}>
-            <Typography gutterBottom variant="h3" fontFamily="BeautifulBarbies">
-              {pet.name}
-            </Typography>
-            <List>
-              <ListItemText>Gender: {pet.gender}</ListItemText>
-              <ListItemText>Species: {pet.species}</ListItemText>
-              <ListItemText>Color: {pet.color}</ListItemText>
-            </List>
-            <Box
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                flexWrap: "wrap",
-              }}
+      <VerticalBox>
+        {pets.map((pet) => (
+          <Card
+            key={pet._id}
+            sx={{ maxWidth: 600, marginBottom: 16, marginTop: 16 }}
+          >
+            {pet.avatar && (
+              <CardMedia
+                sx={{ height: 140 }}
+                image={`/static/images/cards/${pet.avatar}.jpg`}
+                title={pet.name}
+              />
+            )}
+            <CardContent
+              sx={{ marginTop: "25px", width: "500px", marginBottom: "25px" }}
             >
-              <Tags label="Likes" tags={pet.likes} />
-              <Tags label="Dislikes" tags={pet.dislikes} />
-            </Box>
-          </CardContent>
-        </Card>
-      ))}
+              <Typography
+                gutterBottom
+                variant="h3"
+                fontFamily="BeautifulBarbies"
+              >
+                {pet.name}
+              </Typography>
+              <List>
+                <ListItemText>Gender: {pet.gender}</ListItemText>
+                <ListItemText>Species: {pet.species}</ListItemText>
+                <ListItemText>Color: {pet.color}</ListItemText>
+                <ListItemText>Age: {pet.age}</ListItemText>
+              </List>
+              <Box
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  flexWrap: "wrap",
+                }}
+              >
+                <Tags label="Likes" tags={pet.likes} />
+                <Tags label="Dislikes" tags={pet.dislikes} />
+              </Box>
+            </CardContent>
+          </Card>
+        ))}
+      </VerticalBox>
     </>
   );
 }

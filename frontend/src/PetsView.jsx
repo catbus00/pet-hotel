@@ -5,6 +5,7 @@ import { API } from "./env";
 import { Authenticated } from "./types/Authentication";
 import { Pets } from "./types/Pet";
 import PetDialogForm from "./PetDialogForm";
+import VerticalBox from "./components/VerticalBox";
 
 PetsView.propTypes = {
   token: PropTypes.string,
@@ -103,16 +104,18 @@ function PetsView({ token, pets, setPets }) {
 
   return (
     <>
-      {pets.map((pet) => (
-        <PetDialogForm
-          key={`pet-card-${pet._id}`}
-          pet={pet}
-          handleEditClick={handleEditClick}
-          handleDeleteClick={handleDeleteClick}
-          token={token}
-          onSuccess={handleAddSuccess}
-        />
-      ))}
+      <VerticalBox>
+        {pets.map((pet) => (
+          <PetDialogForm
+            key={`pet-card-${pet._id}`}
+            pet={pet}
+            handleEditClick={handleEditClick}
+            handleDeleteClick={handleDeleteClick}
+            token={token}
+            onSuccess={handleAddSuccess}
+          />
+        ))}
+      </VerticalBox>
     </>
   );
 }

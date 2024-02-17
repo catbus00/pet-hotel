@@ -1,5 +1,5 @@
 import { Authenticated } from "./types/Authentication";
-import { Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 
 Dashboard.propTypes = {
   ...Authenticated,
@@ -9,7 +9,21 @@ function Dashboard({ user }) {
   return (
     <>
       {user ? (
-        <Typography>Hello, {user.name}! Welcome to Meowtel App.</Typography>
+        <Box
+          sx={{
+            marginBottom: "100px",
+            marginTop: "100px",
+            borderRadius: "30px",
+          }}
+        >
+          <Box>
+            <Typography>Hello,</Typography>
+            <Typography gutterBottom variant="h3" fontFamily="BeautifulBarbies">
+              {user.name}
+            </Typography>
+            <Typography>Welcome to the Meowtel App.</Typography>
+          </Box>
+        </Box>
       ) : (
         <Typography>
           You are not authorized to view this page. Please log in for access.

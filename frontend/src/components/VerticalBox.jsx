@@ -4,9 +4,10 @@ import PropTypes from "prop-types";
 const VerticalBox = (props) => (
   <Box
     sx={{
-      flexDirection: "column",
-      alignItems: "flex-start",
-      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      display: "flex",
+      flexDirection: "column",      
     }}
     {...props}
   />
