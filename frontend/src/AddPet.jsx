@@ -166,7 +166,7 @@ function AddPet({ pet, token, onSuccessfulChange }) {
                 <HorizontalBox key={field.id}>
                   <label>
                     <TextField
-                      {...register(`likes[${index}].name`)}
+                      {...register(`likes.${index}`)}
                       placeholder="Likes"
                       label="Likes"
                       sx={{ marginBottom: "16.5px" }}
@@ -201,7 +201,7 @@ function AddPet({ pet, token, onSuccessfulChange }) {
                 <HorizontalBox key={field.id}>
                   <label>
                     <TextField
-                      {...register(`dislikes[${index}].name`)}
+                      {...register(`dislikes.${index}`)}
                       placeholder="Dislikes"
                       label="Dislikes"
                       sx={{ marginBottom: "16.5px" }}
