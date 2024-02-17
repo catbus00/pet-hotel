@@ -66,16 +66,18 @@ function Root() {
         <Route
           path="pets/owned"
           element={
-            <PetsViewOwned
-              setPets={setPets}
-              pets={pets}
-              token={token}
-            />
+            <PetsViewOwned setPets={setPets} pets={pets} token={token} />
           }
         />
         <Route
           path="pets/"
-          element={<PetsView token={token} setPets={setPets} pets={pets} />}
+          element={
+            <PetsView
+              token={token}
+              setPets={setPets}
+              pets={pets}
+            />
+          }
         />
         <Route
           path="hotels"

@@ -87,7 +87,7 @@ function HotelDialogForm({
               <AddHotel
                 hotel={hotel}
                 token={token}
-                onSuccess={() => {
+                onSuccessfulChange={() => {
                   handleClose();
                   onSuccess();
                 }}

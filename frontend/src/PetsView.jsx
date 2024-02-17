@@ -27,13 +27,12 @@ import { Pets } from "./types/Pet";
 
 PetsView.propTypes = {
   token: PropTypes.string,
-  onSuccess: PropTypes.func,
   petId: PropTypes.string,
   ...Authenticated,
   ...Pets,
 };
 
-function PetsView({ token, pets, setPets, onSuccess }) {
+function PetsView({ token, pets, setPets }) {
   const exists = pets?._id ?? false;
   const [selectedPet, setSelectedPet] = useState(null);
   const [open, setOpen] = React.useState(false);
@@ -189,18 +188,15 @@ function PetsView({ token, pets, setPets, onSuccess }) {
                   <AddPet
                     pet={pet}
                     token={token}
-                    onSuccess={() => {
+                    onSuccessfulChange={() => {
                       handleClose();
-                      onSuccess();
+                      handleAddSuccess();
                     }}
                   />
                 </DialogContent>
               </Slide>
             </Dialog>
-            <Button
-              size="small"
-              onClick={() => handleDeleteClick(pet._id)}
-            >
+            <Button size="small" onClick={() => handleDeleteClick(pet._id)}>
               Delete
             </Button>
           </CardActions>

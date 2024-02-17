@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 import { Pets } from "./types/Pet";
 
 // Add Pet Function
-function AddPet({ pet, token, onSuccess }) {
+function AddPet({ pet, token, onSuccessfulChange }) {
   const exists = pet?._id ?? false;
   const [hotels, setHotels] = useState([]);
 
@@ -60,8 +60,8 @@ function AddPet({ pet, token, onSuccess }) {
     };
     console.log(configuration);
     try {
-      const response = await axios(configuration);
-      onSuccess(response.data.pet);
+      const res = await axios(configuration);
+      onSuccessfulChange(res.data.pet);
       reset();
     } catch (error) {
       console.error("API Error:", error);
@@ -269,7 +269,7 @@ AddPet.propTypes = {
   pet: PropTypes.shape(Pets),
   petId: PropTypes.string,
   ...Pets,
-  onSuccess: PropTypes.func.isRequired,
+  onSuccessfulChange: PropTypes.func.isRequired,
 };
 
 export default AddPet;

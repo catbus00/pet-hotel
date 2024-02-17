@@ -10,7 +10,7 @@ import axios from "axios";
 import InputDatePicker from "./components/InputDatePicker";
 
 // Add Hotel Function
-function AddHotel({ hotel, token, onSuccess }) {
+function AddHotel({ hotel, token, onSuccessfulChange }) {
   const exists = hotel?._id ?? false;
   const {
     handleSubmit,
@@ -46,7 +46,7 @@ function AddHotel({ hotel, token, onSuccess }) {
     };
     try {
       const response = await axios(configuration);
-      onSuccess(response.data.hotel);
+      onSuccessfulChange(response.data.hotel);
       reset();
     } catch (error) {
       console.error("API Error:", error);
@@ -103,7 +103,7 @@ AddHotel.propTypes = {
   token: PropTypes.string.isRequired,
   hotel: PropTypes.shape(Hotel),
   hotelId: PropTypes.string,
-  onSuccess: PropTypes.func.isRequired,
+  onSuccessfulChange: PropTypes.func.isRequired,
 };
 
 export default AddHotel;

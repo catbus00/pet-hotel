@@ -76,7 +76,7 @@ function Navigation({ user, token, hotels, setHotels, pets, setPets }) {
                   <AddHotel
                     token={token}
                     hotel={undefined}
-                    onSuccess={(hotel) => {
+                    onSuccessfulChange={(hotel) => {
                       handleClose();
                       setHotels([...hotels, hotel]);
                     }}
@@ -86,7 +86,7 @@ function Navigation({ user, token, hotels, setHotels, pets, setPets }) {
                   <AddPet
                     token={token}
                     pet={undefined}
-                    onSuccess={(pet) => {
+                    onSuccessfulChange={(pet) => {
                       handleClose();
                       setPets((prevPets) => [
                         ...prevPets,
