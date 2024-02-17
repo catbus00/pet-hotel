@@ -1,15 +1,9 @@
 import { useState } from "react";
-import {
-  FormControl,
-  TextField,
-  Button,
-  Switch,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { FormControl, TextField, Button, Switch, Grid } from "@mui/material";
 import axios, { HttpStatusCode } from "axios";
 import { Secure } from "./types/Secure";
 import { API } from "./env";
+import MuiErrors from "./MuiErrors";
 
 // Register and Login Function
 
@@ -55,6 +49,7 @@ function Auth({ setUser, setToken, navigate }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setResponseError(undefined);
     setRequesting(true);
     const invalidName = nameValidator(name);
     const invalidEmail = emailValidator(email);
@@ -100,15 +95,26 @@ function Auth({ setUser, setToken, navigate }) {
         }
       })
       .catch((e) => {
-        console.error(e);
         if (e.response && e.response.data && e.response.data.message) {
           console.log(e.response.data.message);
-          setResponseError(e.response.data.message);
+          setResponseError({
+            severity: "error",
+            title: "Error",
+            message: e.response.data.message,
+          });
+        } else if (e.response && e.response.status === 401) {
+          setResponseError({
+            severity: "error",
+            title: "Error",
+            message: "Invalid Credentials. Please try again.",
+          });
         } else {
-          console.log("Unexpected error occurred");
-          setResponseError("Unexpected error occurred");
+          setResponseError({
+            severity: "error",
+            title: "Error",
+            message: "An unexpected error occurred, Please try again.",
+          });
         }
-        navigate("/");
       })
       .finally(() => setRequesting(false));
   };
@@ -244,10 +250,13 @@ function Auth({ setUser, setToken, navigate }) {
           >
             Submit
           </Button>
-
-          <Typography sx={{ ml: 2 }} variant="body1">
-            {responseError}
-          </Typography>
+          {responseError && (
+            <MuiErrors
+              severity={responseError.severity}
+              title={responseError.title}
+              message={responseError.message}
+            />
+          )}
         </FormControl>
       </form>
     </>
