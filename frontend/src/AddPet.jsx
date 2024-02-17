@@ -42,8 +42,8 @@ function AddPet({ pet, token, onSuccessfulChange }) {
       gender: getValues("gender"),
       color: getValues("color"),
       age: getValues("age"),
-      likes: getValues("likes").map((item) => item.name),
-      dislikes: getValues("dislikes").map((item) => item.name),
+      likes: getValues("likes"),
+      dislikes: getValues("dislikes"),
       species: getValues("species"),
       hotel: getValues("hotel.id"),
     };
@@ -60,8 +60,8 @@ function AddPet({ pet, token, onSuccessfulChange }) {
     };
     console.log(configuration);
     try {
-      const res = await axios(configuration);
-      onSuccessfulChange(res.data.pet);
+      const response = await axios(configuration);
+      onSuccessfulChange(response.data.pet);
       reset();
     } catch (error) {
       console.error("API Error:", error);
@@ -189,7 +189,7 @@ function AddPet({ pet, token, onSuccessfulChange }) {
             href="#"
             type="Button"
             onClick={() => {
-              likesAppend({ name: "" });
+              likesAppend("");
             }}
             sx={{ marginBottom: "16.5px" }}
           >
@@ -224,7 +224,7 @@ function AddPet({ pet, token, onSuccessfulChange }) {
             href="#"
             type="Button"
             onClick={() => {
-              dislikesAppend({ name: "" });
+              dislikesAppend("");
             }}
             sx={{ marginBottom: "16.5px" }}
           >
