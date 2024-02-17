@@ -22,11 +22,23 @@ const PetSchema = new mongoose.Schema(
       max: 3,
     },
     likes: {
-      type: [String],
+      type: [
+        {
+          type: String,
+          trim: true,
+          required: [true, "A like has to be defined"],
+        },
+      ],
       default: [],
     },
     dislikes: {
-      type: [String],
+      type: [
+        {
+          type: String,
+          trim: true,
+          required: [true, "A like has to be defined"],
+        },
+      ],
       default: [],
     },
     species: {
