@@ -37,7 +37,6 @@ const PetSchema = new mongoose.Schema(
     hotel: {
       type: mongoose.Types.ObjectId,
       ref: "Hotel",
-      required: [true, "Please provide the hotel for your pet"],
     },
     photo: String,
     createdBy: {

@@ -1,4 +1,5 @@
 const Hotel = require("../models/Hotel");
+const Pet = require("../models/Pet");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError, NotFoundError } = require("../errors/");
 
@@ -70,6 +71,7 @@ const deleteHotel = async (req, res) => {
   if (!hotel) {
     throw new NotFoundError(`No hotel with id ${hotelId}`);
   }
+  await Pet.updateMany({ hotel: hotelId }, { hotel: null });
   res.status(StatusCodes.OK).send();
 };
 

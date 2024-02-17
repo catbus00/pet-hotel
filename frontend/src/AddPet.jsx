@@ -244,7 +244,7 @@ function AddPet({ pet, token, onSuccessfulChange }) {
           <Combobox
             control={control}
             name="hotel"
-            hotels={hotels}
+            options={hotels}
             rules={{
               required: "The hotel where your pet is staying is required.",
             }}
