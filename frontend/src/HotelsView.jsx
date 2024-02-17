@@ -30,7 +30,7 @@ function HotelsView({ token, hotels, setHotels }) {
         Authorization: `Bearer ${token}`,
       },
       method: "get",
-      url: `${API}/hotels/`,
+      url: `${API}/hotels`,
     };
 
     axios(configuration)

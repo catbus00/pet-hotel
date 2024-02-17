@@ -19,7 +19,7 @@ const PetSchema = new mongoose.Schema(
     age: {
       type: "Number",
       required: [true, "Please provide the age of your pet"],
-      max: 3,
+      max: 100,
     },
     likes: {
       type: [

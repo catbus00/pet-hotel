@@ -71,13 +71,7 @@ function Root() {
         />
         <Route
           path="pets/"
-          element={
-            <PetsView
-              token={token}
-              setPets={setPets}
-              pets={pets}
-            />
-          }
+          element={<PetsView token={token} setPets={setPets} pets={pets} />}
         />
         <Route
           path="hotels"
@@ -96,7 +90,7 @@ function Root() {
             />
           }
         />
-        <Route path="profile" element={<Profile />} />
+        <Route path="profile" element={<Profile user={user} />} />
         <Route path="dashboard" element={<Dashboard user={user} />} />
       </Route>
       {/* fallback route */}
