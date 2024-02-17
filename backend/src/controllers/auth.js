@@ -3,9 +3,17 @@ const { StatusCodes } = require("http-status-codes");
 const csrf = require("host-csrf");
 
 const register = async (req, res) => {
-  const user = await User.create({ ...req.body });
-  const token = user.createJWT();
-  res.status(StatusCodes.CREATED).json({ user: { name: user.name }, token });
+  try {
+    const user = await User.create({ ...req.body });
+    const token = user.createJWT();
+    res.status(StatusCodes.CREATED).json({ user: { name: user.name }, token });
+  } catch (e) {
+    if (e.code === 11000) {
+      res.status(StatusCodes.CONFLICT).json("Account already exists");
+    } else {
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR, "Unexpected error");
+    }
+  }
 };
 
 const login = async (req, res) => {

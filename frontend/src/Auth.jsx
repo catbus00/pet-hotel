@@ -108,6 +108,12 @@ function Auth({ setUser, setToken, navigate }) {
             title: "Error",
             message: "Invalid Credentials. Please try again.",
           });
+        } else if (e.response && e.response.status === 409) {
+          setResponseError({
+            severity: "error",
+            title: "Error",
+            message: "Account already exists.",
+          });
         } else {
           setResponseError({
             severity: "error",
