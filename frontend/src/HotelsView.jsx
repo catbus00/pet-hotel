@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { Authenticated } from "./types/Authentication";
 import { API } from "./env";
+import VerticalBox from "./components/VerticalBox";
 import { Hotels } from "./types/Hotel";
 
 HotelsView.propTypes = {
@@ -58,35 +59,46 @@ function HotelsView({ token, hotels, setHotels }) {
 
   return (
     <>
-      {hotels.map((hotel) => (
-        <Card key={hotel._id} sx={{ maxWidth: 600, marginBottom: 16 }}>
-          {hotel.avatar && (
-            <CardMedia
-              sx={{ height: 140 }}
-              image={`/static/images/cards/${hotel.avatar}.jpg`}
-              title={hotel.name}
-            />
-          )}
-          <CardContent sx={{ marginTop: "25px", marginBottom: "25px" }}>
-            <Typography gutterBottom variant="h3" fontFamily="BeautifulBarbies">
-              {hotel.name}
-            </Typography>
-            <Box
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                flexWrap: "wrap",
-              }}
+      <VerticalBox>
+        {hotels.map((hotel) => (
+          <Card
+            key={hotel._id}
+            sx={{ maxWidth: 600, marginBottom: 16, marginTop: 16 }}
+          >
+            {hotel.avatar && (
+              <CardMedia
+                sx={{ height: 140 }}
+                image={`/static/images/cards/${hotel.avatar}.jpg`}
+                title={hotel.name}
+              />
+            )}
+            <CardContent
+              sx={{ marginTop: "25px", width: "500px", marginBottom: "25px" }}
             >
-              <List>
-                <ListItemText>Name: {hotel.name}</ListItemText>
-                <ListItemText>Hotel: {hotel.description}</ListItemText>
-                <ListItemText>Description: {hotel.year}</ListItemText>
-              </List>
-            </Box>
-          </CardContent>
-        </Card>
-      ))}
+              <Typography
+                gutterBottom
+                variant="h3"
+                fontFamily="BeautifulBarbies"
+              >
+                {hotel.name}
+              </Typography>
+              <Box
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  flexWrap: "wrap",
+                }}
+              >
+                <List>
+                  <ListItemText>Name: {hotel.name}</ListItemText>
+                  <ListItemText>Hotel: {hotel.description}</ListItemText>
+                  <ListItemText>Description: {hotel.year}</ListItemText>
+                </List>
+              </Box>
+            </CardContent>
+          </Card>
+        ))}
+      </VerticalBox>
     </>
   );
 }

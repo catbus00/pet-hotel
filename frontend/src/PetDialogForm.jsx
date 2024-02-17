@@ -35,7 +35,10 @@ function PetDialogForm({
   };
   return (
     <Box sx={{ justifyContent: "center" }}>
-      <Card key={pet._id} sx={{ maxWidth: 600, marginBottom: 16 }}>
+      <Card
+        key={pet._id}
+        sx={{ maxWidth: 600, marginBottom: 16, marginTop: 16 }}
+      >
         {pet.avatar && (
           <CardMedia
             sx={{ height: 140 }}
@@ -43,7 +46,9 @@ function PetDialogForm({
             title={pet.name}
           />
         )}
-        <CardContent sx={{ marginTop: "25px", marginBottom: "25px" }}>
+        <CardContent
+          sx={{ marginTop: "25px", width: "500px", marginBottom: "25px" }}
+        >
           <Typography gutterBottom variant="h3" fontFamily="BeautifulBarbies">
             {pet.name}
           </Typography>
